@@ -1,0 +1,14 @@
+Checks: '
+*,
+-altera*,
+-bugprone-reserved-identifier,
+-cert-dcl37-c,
+-cert-dcl51-cpp,
+-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,
+-concurrency*,
+-cppcoreguidelines*,
+-llvm-header-guard,
+-llvmlibc-restrict-system-libc-headers,
+-readability-avoid-const-params-in-decls
+'
+FormatStyle: file
