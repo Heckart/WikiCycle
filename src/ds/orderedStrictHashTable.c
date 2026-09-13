@@ -3,6 +3,7 @@
 // read: https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_records#Articles_with_the_longest_titles
 #define LONGEST_WIKI_ARTICLE_NAME 255
 #include "orderedStrictHashTable.h"
+#include "returnCodes.h"
 #include <assert.h>
 #include <stddef.h>
 #include <stddefer.h>

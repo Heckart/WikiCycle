@@ -2,6 +2,7 @@
 #define LONGEST_WIKI_ARTICLE_LENGTH 255
 #include "unitTest_orderedStrictHashTable.h"
 #include "../../src/ds/orderedStrictHashTable.h"
+#include "../../src/ds/returnCodes.h"
 #include <assert.h>
 #include <stddefer.h>
 #include <stdint.h>

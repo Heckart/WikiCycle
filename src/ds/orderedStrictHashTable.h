@@ -2,11 +2,9 @@
 #ifndef WIKICYCLE_SRC_DS_ORDEREDSTRICTHASHTABLE_H_
 #define WIKICYCLE_SRC_DS_ORDEREDSTRICTHASHTABLE_H_
 
+#include "returnCodes.h"
 #include <stdint.h>
 #include <uchar.h>
-
-enum creationFailureRC { EMPTY_BUCKET_RC = 8, MALLOC_FAILURE_RC = 9 };
-enum insertionRC { SUCCESSFUL_NODE_INSERTION = 0, DUPLICATE_NODE_INSERTION = 1, INSERTION_COLLISION = 2 };
 
 typedef struct OrderedStrictHashTableNode {
     char8_t *pNode_name;
