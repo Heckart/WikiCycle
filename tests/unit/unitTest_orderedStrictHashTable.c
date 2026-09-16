@@ -1,8 +1,8 @@
 #define _POSIX_C_SOURCE 200809L
 #define LONGEST_WIKI_ARTICLE_LENGTH 255
-#include "unitTest_orderedStrictHashTable.h"
-#include "../../src/ds/orderedStrictHashTable.h"
-#include "../../src/ds/returnCodes.h"
+#include "../include/unitTest_orderedStrictHashTable.h"
+#include "../../src/include/orderedStrictHashTable.h"
+#include "../../src/include/returnCodes.h"
 #include <assert.h>
 #include <stddefer.h>
 #include <stdint.h>
