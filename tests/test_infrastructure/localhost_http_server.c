@@ -31,8 +31,8 @@ enum serverConstants {
  */
 
 // cppcheck-suppress constParameterCallback; I'm not dealing with this
-static void *serverMainThread(void *html_file) {
-    const char *const path = (const char *const)html_file;
+static void *serverMainThread(void *pHtml_file) {
+    const char *const pPath = (const char *const)pHtml_file;
 
     char8_t buffer[BUFFER_SIZE];
 
@@ -78,36 +78,36 @@ static void *serverMainThread(void *html_file) {
         buffer[(size_t)bytes_read] = '\0';
 
         // flawfinder: ignore. This is a contant file.
-        FILE *const file = fopen(path, "rbe");
+        FILE *const pFile = fopen(pPath, "rbe");
 
-        if (!file) {
+        if (!pFile) {
             constexpr int_least32_t file_not_found_response_len = 99;
-            const char8_t *response = u8"HTTP/1.1 404 Not Found\r\n"
-                                      u8"Content-Type: text/plain\r\n"
-                                      u8"Content-Length: 9\r\n"
-                                      u8"Connection: close\r\n"
-                                      u8"\r\n"
-                                      u8"Not Found";
+            const char8_t *pResponse = u8"HTTP/1.1 404 Not Found\r\n"
+                                       u8"Content-Type: text/plain\r\n"
+                                       u8"Content-Length: 9\r\n"
+                                       u8"Connection: close\r\n"
+                                       u8"\r\n"
+                                       u8"Not Found";
 
-            write(client_fd, response, strnlen((const char *const)response, file_not_found_response_len + 1));
+            write(client_fd, pResponse, strnlen((const char *const)pResponse, file_not_found_response_len + 1));
             // The connection must be closed so the client sees EOF and exits. Otherwise popen'd clients hang forever, and because they inhereit our
             // fds they keep the listen port alive even after this process is killed.
             close(client_fd);
         } else {
-            int_least32_t fseek_rc = fseek(file, 0, SEEK_END);
+            int_least32_t fseek_rc = fseek(pFile, 0, SEEK_END);
             if (fseek_rc != 0) {
                 perror("fseek failed.");
-                (void)fclose(file);
+                (void)fclose(pFile);
                 close(client_fd);
                 continue;
             }
 
-            const int_least64_t size = ftell(file);
+            const int_least64_t size = ftell(pFile);
 
-            fseek_rc = fseek(file, 0, SEEK_SET);
+            fseek_rc = fseek(pFile, 0, SEEK_SET);
             if (fseek_rc != 0) {
                 perror("fseek failed.");
-                (void)fclose(file);
+                (void)fclose(pFile);
                 close(client_fd);
                 continue;
             }
@@ -123,7 +123,7 @@ static void *serverMainThread(void *html_file) {
                                                       size);
             if (header_len <= 0 || header_len >= (int_least32_t)sizeof(header)) {
                 perror("snprintf failed.");
-                (void)fclose(file);
+                (void)fclose(pFile);
                 close(client_fd);
                 continue;
             }
@@ -133,18 +133,18 @@ static void *serverMainThread(void *html_file) {
             uint_least64_t chunk;
             [[clang::suppress]] // I am not dealing with the clang-analyzer-unix.Stream errors for this test thing
             // flawfinder: ignore. Only used locally for testing purposes, so not concerned about filtering the buffer.
-            while ((chunk = fread(buffer, 1, sizeof(buffer), file)) > 0) {
+            while ((chunk = fread(buffer, 1, sizeof(buffer), pFile)) > 0) {
                 write(client_fd, buffer, chunk);
             }
 
-            (void)fclose(file);
+            (void)fclose(pFile);
             close(client_fd);
         }
     }
     return nullptr;
 }
 
-int_least32_t startTestServer(char8_t *const restrict html_file) {
+int_least32_t startTestServer(char8_t *const restrict pHtml_file) {
     if (server_fd != -1) {
         stopTestServer();
     }
@@ -176,7 +176,7 @@ int_least32_t startTestServer(char8_t *const restrict html_file) {
 
     server_fd = socket_fd;
     atomic_store(&server_continue, true);
-    if (pthread_create(&server_thread, nullptr, serverMainThread, html_file) != 0) {
+    if (pthread_create(&server_thread, nullptr, serverMainThread, pHtml_file) != 0) {
         perror("pthread_create in startTestServer failed.");
         atomic_store(&server_continue, false);
         close(socket_fd);

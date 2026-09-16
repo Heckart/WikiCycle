@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <uchar.h>
 
-int_least32_t startTestServer(char8_t *const restrict html_file);
+int_least32_t startTestServer(char8_t *const restrict pHtml_file);
 
 void stopTestServer(void);
 

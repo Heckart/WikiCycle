@@ -1,6 +1,6 @@
 // Copyright [2026] Ethan Heckart
-#ifndef WIKICYCLE_SRC_DS_ORDEREDSTRICTHASHTABLE_H_
-#define WIKICYCLE_SRC_DS_ORDEREDSTRICTHASHTABLE_H_
+#ifndef WIKICYCLE_SRC_INCLUDE_ORDEREDSTRICTHASHTABLE_H_
+#define WIKICYCLE_SRC_INCLUDE_ORDEREDSTRICTHASHTABLE_H_
 
 #include "returnCodes.h"
 #include <stdint.h>
@@ -74,4 +74,4 @@ static inline bool hashExistsInOSHT(const OrderedStrictHashTable *const restrict
 // Status:     Improve collision print message once applicable.
 enum insertionRC insertToOSHT(OrderedStrictHashTable *const restrict pTable, const char8_t *const restrict pNode_name);
 
-#endif // WIKICYCLE_SRC_DS_ORDEREDSTRICTHASHTABLE_H_
+#endif // WIKICYCLE_SRC_INCLUDE_ORDEREDSTRICTHASHTABLE_H_

@@ -19,11 +19,11 @@ void test_localhost_http_server_serves_proper_file(void) {
     startTestServer(u8"tests/test_infrastructure/index.html");
 
     // flawfinder: ignore. Curl opens a localhost file we have total control over.
-    FILE *curlOutput = popen("curl localhost:8080", "r");
-    assert(curlOutput != nullptr);
-    const char8_t *const fgets_return = (const char8_t *const)fgets((char *)buffer, BUFFER_SIZE, curlOutput);
+    FILE *pCurlOutput = popen("curl localhost:8080", "r");
+    assert(pCurlOutput != nullptr);
+    const char8_t *const fgets_return = (const char8_t *const)fgets((char *)buffer, BUFFER_SIZE, pCurlOutput);
     assert(fgets_return != nullptr);
-    pclose(curlOutput);
+    pclose(pCurlOutput);
 
     assert(strncmp((const char *const)buffer, "Hello, World!", 13) == 0);
 
@@ -36,11 +36,11 @@ void test_localhost_http_server_start_stop_start_again(void) {
     startTestServer(u8"tests/test_infrastructure/index.html");
 
     // flawfinder: ignore. Curl opens a localhost file we have total control over.
-    FILE *curlOutput = popen("curl localhost:8080", "r");
-    assert(curlOutput != nullptr);
-    char8_t *fgets_return = (char8_t *const)fgets((char *)buffer, BUFFER_SIZE, curlOutput);
-    assert(fgets_return != nullptr);
-    pclose(curlOutput);
+    FILE *pCurlOutput = popen("curl localhost:8080", "r");
+    assert(pCurlOutput != nullptr);
+    char8_t *pFgets_return = (char8_t *const)fgets((char *)buffer, BUFFER_SIZE, pCurlOutput);
+    assert(pFgets_return != nullptr);
+    pclose(pCurlOutput);
 
     assert(strncmp((const char *const)buffer, "Hello, World!", 13) == 0);
 
@@ -51,16 +51,16 @@ void test_localhost_http_server_start_stop_start_again(void) {
     startTestServer(u8"tests/test_infrastructure/index2.html");
 
     // flawfinder: ignore. Curl opens a localhost file we have total control over.
-    curlOutput = popen("curl localhost:8080", "r");
-    assert(curlOutput != nullptr);
-    fgets_return = (char8_t *const)fgets((char *)buffer, BUFFER_SIZE, curlOutput);
-    pclose(curlOutput);
-    assert(fgets_return != nullptr);
+    pCurlOutput = popen("curl localhost:8080", "r");
+    assert(pCurlOutput != nullptr);
+    pFgets_return = (char8_t *const)fgets((char *)buffer, BUFFER_SIZE, pCurlOutput);
+    pclose(pCurlOutput);
+    assert(pFgets_return != nullptr);
 
-    assert((strstr)((const char *const)fgets_return, "Localhost C Server") != nullptr);
-    assert((strstr)((const char *const)fgets_return, "Hello, C!") != nullptr);
-    assert((strstr)((const char *const)fgets_return, "<html>") != nullptr);
-    assert((strstr)((const char *const)fgets_return, "This string does not exist") == nullptr);
+    assert((strstr)((const char *const)pFgets_return, "Localhost C Server") != nullptr);
+    assert((strstr)((const char *const)pFgets_return, "Hello, C!") != nullptr);
+    assert((strstr)((const char *const)pFgets_return, "<html>") != nullptr);
+    assert((strstr)((const char *const)pFgets_return, "This string does not exist") == nullptr);
 
     stopTestServer();
 }
@@ -71,11 +71,11 @@ void test_localhost_http_server_nonASCII_UTF8(void) {
     startTestServer(u8"tests/test_infrastructure/emoji.html");
 
     // flawfinder: ignore. Curl opens a localhost file we have total control over.
-    FILE *curlOutput = popen("curl localhost:8080", "r");
-    assert(curlOutput != nullptr);
-    const char8_t *fgets_return = (const char8_t *)fgets((char *)buffer, BUFFER_SIZE, curlOutput);
-    assert(fgets_return != nullptr);
-    pclose(curlOutput);
+    FILE *pCurlOutput = popen("curl localhost:8080", "r");
+    assert(pCurlOutput != nullptr);
+    const char8_t *pFgets_return = (const char8_t *)fgets((char *)buffer, BUFFER_SIZE, pCurlOutput);
+    assert(pFgets_return != nullptr);
+    pclose(pCurlOutput);
 
     assert(strncmp((const char *const)buffer, "🫠🫨🫪🤌🇲🇶 ", 20) == 0);
 
@@ -86,11 +86,11 @@ void test_localhost_http_server_nonASCII_UTF8(void) {
     startTestServer(u8"tests/test_infrastructure/greek.html");
 
     // flawfinder: ignore. Curl opens a localhost file we have total control over.
-    curlOutput = popen("curl localhost:8080", "r");
-    assert(curlOutput != nullptr);
-    fgets_return = (const char8_t *)fgets((char *)buffer, BUFFER_SIZE, curlOutput);
-    pclose(curlOutput);
-    assert(fgets_return != nullptr);
+    pCurlOutput = popen("curl localhost:8080", "r");
+    assert(pCurlOutput != nullptr);
+    pFgets_return = (const char8_t *)fgets((char *)buffer, BUFFER_SIZE, pCurlOutput);
+    pclose(pCurlOutput);
+    assert(pFgets_return != nullptr);
 
     assert(strncmp((const char *const)buffer,
                    "ὁ δὲ ἀνδρεῖος ἀνέκπληκτος ὡς ἄνθρωπος. φοβήσεται μὲν οὖν καὶ τὰ τοιαῦτα, ὡς δεῖ δὲ καὶ ὡς ὁ λόγος ὑπομενεῖ τοῦ καλοῦ ἕνεκα· "
@@ -106,11 +106,11 @@ void test_localhost_http_server_nonexistent_file(void) {
     startTestServer(u8"ThisFileDoesNotExist.html");
 
     // flawfinder: ignore. Curl opens a localhost file we have total control over.
-    FILE *curlOutput = popen("curl localhost:8080", "r");
-    assert(curlOutput != nullptr);
-    const char8_t *const fgets_return = (const char8_t *const)fgets((char *)buffer, BUFFER_SIZE, curlOutput);
-    assert(fgets_return != nullptr);
-    pclose(curlOutput);
+    FILE *pCurlOutput = popen("curl localhost:8080", "r");
+    assert(pCurlOutput != nullptr);
+    const char8_t *const pFgets_return = (const char8_t *const)fgets((char *)buffer, BUFFER_SIZE, pCurlOutput);
+    assert(pFgets_return != nullptr);
+    pclose(pCurlOutput);
 
     assert(strncmp((const char *const)buffer, "Not Found", 9) == 0);
 
