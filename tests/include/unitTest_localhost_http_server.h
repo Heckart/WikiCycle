@@ -1,0 +1,13 @@
+// Copyright [2026] Ethan Heckart
+#ifndef WIKICYCLE_TESTS_INCLUDE_UNITTEST_LOCALHOST_HTTP_SERVER_H_
+#define WIKICYCLE_TESTS_INCLUDE_UNITTEST_LOCALHOST_HTTP_SERVER_H_
+
+void test_localhost_http_server_serves_proper_file(void);
+
+void test_localhost_http_server_start_stop_start_again(void);
+
+void test_localhost_http_server_nonASCII_UTF8(void);
+
+void test_localhost_http_server_nonexistent_file(void);
+
+#endif // WIKICYCLE_TESTS_INCLUDE_UNITTEST_LOCALHOST_HTTP_SERVER_H_
