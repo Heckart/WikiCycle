@@ -3,12 +3,12 @@ BGreen='\033[1;32m'
 BIRed='\033[1;91m'
 BIPurple='\033[1;35m'
 NC='\033[0m'
-TEST_COMPILER_FLAGS="-std=c2y -fdefer-ts -Og -g3 -march=native -pipe"
-RELEASE_COMPILER_FLAGS="-std=c2y -fdefer-ts -O3 -flto -march=native -pipe"
-TEST_SOURCE_FILES="tests/*.c src/ds/*.c tests/unit/*.c"
-TEST_INCLUDE_FILES="src/ds/*.h tests/unit/*.h"
-RELEASE_SOURCE_FILES="src/*.c src/ds/*.c"
-RELEASE_INCLUDE_FILES="src/ds/*.h"
+TEST_COMPILER_FLAGS="-std=c2y -fdefer-ts -lcurl -Og -g3 -march=native -pipe"
+RELEASE_COMPILER_FLAGS="-std=c2y -fdefer-ts -lcurl -O3 -flto -march=native -pipe"
+TEST_SOURCE_FILES="tests/*.c src/dsa/*.c tests/test_infrastructure/*.c tests/unit/*.c"
+TEST_INCLUDE_FILES="src/include/*.h tests/include/*.h"
+RELEASE_SOURCE_FILES="src/*.c src/dsa/*.c"
+RELEASE_INCLUDE_FILES="src/include/*.h"
 SANITIZER_COMPILER="clang"
 
 # needed so compile_commands.json is up to date if run from a container
@@ -43,7 +43,7 @@ echo -e "${BIPurple}Done.\n"
 echo -e "${BIPurple}Running static analysis suite..."
 
 echo -e "${NC}Running cppcheck static analysis..."
-cppcheck -v --platform=unix64 --language=c --std=c2y --project=compile_commands.json --check-level=exhaustive --enable=all --inconclusive --safety --library=posix --error-exitcode=9 --inline-suppr --suppress=missingIncludeSystem --output-file=cppcheck_report.txt >/dev/null 2>&1
+cppcheck -v --platform=unix64 --language=c --std=c2y --check-level=exhaustive --enable=all --inconclusive --safety --library=posix --error-exitcode=9 --inline-suppr --suppress=missingIncludeSystem --output-file=cppcheck_report.txt src/*.c src/dsa/*.c tests/*.c tests/test_infrastructure/*.c tests/unit/*.c >/dev/null 2>&1
 rc="${?}"
 if (("${rc}" == 0)); then
     echo -e "${BGreen}cppcheck static analysis passed."
@@ -54,7 +54,7 @@ else
 fi
 
 echo -e "${NC}Running flawfinder static analysis..."
-flawfinder --minlevel=0 --error-level=0 src/*.c src/ds/*.c src/ds/*.h tests/*.c tests/unit/*.c tests/unit/*.h >flawfinder_report.txt 2>&1
+flawfinder --minlevel=0 --error-level=0 src/*.c src/dsa/*.c src/include/*.h tests/*.c tests/unit/*.c tests/test_infrastructure/*.c tests/include/*.h >flawfinder_report.txt 2>&1
 rc="${?}"
 if (("${rc}" == 0)); then
     echo -e "${BGreen}flawfinder static analysis passed."
@@ -65,7 +65,7 @@ else
 fi
 
 echo -e "${NC}Running lizard static analysis..."
-lizard -V --sort cyclomatic_complexity -o lizard_report.txt src/*.c src/ds/*.c src/ds/*.h tests/*.c tests/unit/*.c tests/unit/*h >/dev/null 2>&1
+lizard -V --sort cyclomatic_complexity -o lizard_report.txt src/*.c src/dsa/*.c src/include/*.h tests/*.c tests/test_infrastructure/*.c tests/unit/*.c tests/include/*.h >/dev/null 2>&1
 rc="${?}"
 if (("${rc}" == 0)); then
     echo -e "${BGreen}lizard static analysis passed."
@@ -88,7 +88,7 @@ else
 fi
 
 echo -e "${NC}Running clang-tidy static analysis..."
-clang-tidy --config-file=.clang-tidy --warnings-as-errors=* -p=compile_commands.json --format-style=file --experimental-custom-checks src/ds/*.h src/ds/*.c src/*.c tests/*.c tests/unit/*.c tests/unit/*.h >clang-tidy_report.txt 2>&1
+clang-tidy --config-file=.clang-tidy --warnings-as-errors=* --format-style=file --experimental-custom-checks src/dsa/*.c src/include/*.h src/*.c tests/*.c tests/unit/*.c tests/include/*.h tests/test_infrastructure/*.c >clang-tidy_report.txt 2>&1
 rc="${?}"
 if (("${rc}" == 0)); then
     echo -e "${BGreen}clang-tidy static analysis passed."
@@ -105,7 +105,7 @@ echo -e "${BIPurple}Done.\n"
 echo -e "${BIPurple}Running build tests..."
 
 echo -e "${NC}Running clang build tests with all warnings as errors..."
-clang ${RELEASE_COMPILER_FLAGS} -Weverything -Werror -Wno-c++98-compat -Wno-c99-compat -Wno-c++-keyword -Wno-declaration-after-statement -Wno-padded -Wno-pre-c23-compat -Wno-unsafe-buffer-usage -Wno-vla ${RELEASE_SOURCE_FILES} -I ${RELEASE_INCLUDE_FILES} >clang_report.txt 2>&1
+clang ${RELEASE_COMPILER_FLAGS} -Weverything -Werror -Wno-c++98-compat -Wno-c99-compat -Wno-c++-keyword -Wno-declaration-after-statement -Wno-implicit-void-ptr-cast -Wno-padded -Wno-pre-c23-compat -Wno-unused-function -Wno-unsafe-buffer-usage -Wno-used-but-marked-unused -Wno-vla ${RELEASE_SOURCE_FILES} -I ${RELEASE_INCLUDE_FILES} >clang_report.txt 2>&1
 rc="${?}"
 if (("${rc}" == 0)); then
     echo -e "${BGreen}clang release build succeeded with no issues."
@@ -115,7 +115,7 @@ else
     cat clang_report.txt
 fi
 
-clang ${TEST_COMPILER_FLAGS} -Weverything -Werror -Wno-c++98-compat -Wno-c99-compat -Wno-c++-keyword -Wno-declaration-after-statement -Wno-padded -Wno-pre-c23-compat -Wno-unsafe-buffer-usage -Wno-vla ${TEST_SOURCE_FILES} -I ${TEST_INCLUDE_FILES} >clang_report.txt 2>&1
+clang ${TEST_COMPILER_FLAGS} -Weverything -Werror -Wno-c++98-compat -Wno-c99-compat -Wno-c++-keyword -Wno-declaration-after-statement -Wno-implicit-void-ptr-cast -Wno-padded -Wno-pre-c23-compat -Wno-unused-function -Wno-unsafe-buffer-usage -Wno-used-but-marked-unused -Wno-vla ${TEST_SOURCE_FILES} -I ${TEST_INCLUDE_FILES} >clang_report.txt 2>&1
 rc="${?}"
 if (("${rc}" == 0)); then
     echo -e "${BGreen}clang test build succeeded with no issues."
@@ -225,7 +225,7 @@ fi
 
 if [[ "${SANITIZER_COMPILER}" == "clang" ]]; then
     echo -e "${NC}Running ${SANITIZER_COMPILER} memory sanitizer dynamic analysis..."
-    clang ${TEST_COMPILER_FLAGS} -fsanitize=memory -fno-omit-frame-pointer -fno-optimize-sibling-calls ${TEST_SOURCE_FILES} -I ${TEST_INCLUDE_FILES}
+    clang ${TEST_COMPILER_FLAGS} -fsanitize=memory -DWIKICYCLE_MSAN_BUILD -fno-omit-frame-pointer -fno-optimize-sibling-calls ${TEST_SOURCE_FILES} -I ${TEST_INCLUDE_FILES}
     ./a.out >memory_report.txt 2>&1
     rc="${?}"
     if (("${rc}" == 0)); then

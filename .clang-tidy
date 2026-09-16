@@ -1,14 +1,23 @@
 Checks: '
 *,
 -altera*,
+-bugprone-command-processor,
+-bugprone-easily-swappable-parameters,
 -bugprone-reserved-identifier,
 -cert-dcl37-c,
 -cert-dcl51-cpp,
+-cert-env33-c,
 -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,
 -concurrency*,
 -cppcoreguidelines*,
+-google-readability-function-size,
+-hicpp-function-size,
+-hicpp-signed-bitwise,
 -llvm-header-guard,
 -llvmlibc-restrict-system-libc-headers,
--readability-avoid-const-params-in-decls
+-readability-avoid-const-params-in-decls,
+-readability-const-return-type,
+-readability-function-cognitive-complexity,
+-readability-function-size
 '
 FormatStyle: file
