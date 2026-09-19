@@ -25,7 +25,7 @@ void test_localhost_http_server_serves_proper_file(void) {
     assert(fgets_return != nullptr);
     pclose(pCurlOutput);
 
-    assert(strncmp((const char *const)buffer, "Hello, World!", 13) == 0);
+    assert(strncmp((const char *const)buffer, "Hello, World!\n", BUFFER_SIZE) == 0);
 
     stopTestServer();
 }
@@ -77,7 +77,7 @@ void test_localhost_http_server_nonASCII_UTF8(void) {
     assert(pFgets_return != nullptr);
     pclose(pCurlOutput);
 
-    assert(strncmp((const char *const)buffer, "🫠🫨🫪🤌🇲🇶 ", 20) == 0);
+    assert(strncmp((const char *const)buffer, "🫠🫨🫪🤌🇲🇶\n", BUFFER_SIZE) == 0);
 
     stopTestServer();
 
@@ -94,8 +94,8 @@ void test_localhost_http_server_nonASCII_UTF8(void) {
 
     assert(strncmp((const char *const)buffer,
                    "ὁ δὲ ἀνδρεῖος ἀνέκπληκτος ὡς ἄνθρωπος. φοβήσεται μὲν οὖν καὶ τὰ τοιαῦτα, ὡς δεῖ δὲ καὶ ὡς ὁ λόγος ὑπομενεῖ τοῦ καλοῦ ἕνεκα· "
-                   "τοῦτο γὰρ τέλος τῆς ἀρετῆς.",
-                   304) == 0);
+                   "τοῦτο γὰρ τέλος τῆς ἀρετῆς.\n",
+                   BUFFER_SIZE) == 0);
 
     stopTestServer();
 }
@@ -112,7 +112,7 @@ void test_localhost_http_server_nonexistent_file(void) {
     assert(pFgets_return != nullptr);
     pclose(pCurlOutput);
 
-    assert(strncmp((const char *const)buffer, "Not Found", 9) == 0);
+    assert(strncmp((const char *const)buffer, "Not Found", BUFFER_SIZE) == 0);
 
     stopTestServer();
 }

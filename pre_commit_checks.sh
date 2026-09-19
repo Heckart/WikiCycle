@@ -225,7 +225,7 @@ fi
 
 if [[ "${SANITIZER_COMPILER}" == "clang" ]]; then
     echo -e "${NC}Running ${SANITIZER_COMPILER} memory sanitizer dynamic analysis..."
-    clang ${TEST_COMPILER_FLAGS} -fsanitize=memory -DWIKICYCLE_MSAN_BUILD -fno-omit-frame-pointer -fno-optimize-sibling-calls ${TEST_SOURCE_FILES} -I ${TEST_INCLUDE_FILES}
+    clang ${TEST_COMPILER_FLAGS} -fsanitize=memory -DMSAN_SKIP -fno-omit-frame-pointer -fno-optimize-sibling-calls ${TEST_SOURCE_FILES} -I ${TEST_INCLUDE_FILES}
     ./a.out >memory_report.txt 2>&1
     rc="${?}"
     if (("${rc}" == 0)); then

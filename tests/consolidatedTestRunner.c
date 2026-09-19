@@ -1,9 +1,7 @@
-#include "../src/include/http.h"
+#include "include/unitTest_http.h"
 #include "include/unitTest_localhost_http_server.h"
 #include "include/unitTest_orderedStrictHashTable.h"
 #include <stdio.h>
-#include <stdlib.h>
-#include <uchar.h>
 #define GREEN "\x1b[32m"
 #define MAGENTA "\x1b[35m"
 #define RESET "\x1b[0m"
@@ -74,19 +72,50 @@ int main() {
     //                                                                                                                           |                   |
     // === UNIT TESTS - END OrderedStrictHashTable ===============================================================================                   |
     //                                                                                                                                               |
+    // === UNIT TESTS - START http ===============================================================================================                   |
+    //                                                                                                                           |                   |
+    (void)fputs(MAGENTA "Starting unit tests for http" RESET "\n", stderr); //                                                   |                   |
+    //                                                                                                                           |                   |
+    // === UNIT TESTS - http - START createCurlString ========================================================                   |                   |
+    (void)fputs(MAGENTA "Starting unit tests for createCurlString" RESET "\n", stderr); //                   |                   |                   |
+    test_http_createCurlString_properInitialization();                                  //                   |                   |                   |
+    (void)fputs(GREEN "Unit tests for createCurlString passed" RESET "\n", stderr);     //                   |                   |                   |
+    // === UNIT TESTS - http - END createCurlString ==========================================================                   |                   |
+    //                                                                                                                           |                   |
+    // === UNIT TESTS - http - START destroyCurlString =======================================================                   |                   |
+    (void)fputs(MAGENTA "Starting unit tests for destroyCurlString" RESET "\n", stderr); //                  |                   |                   |
+    test_http_destroyCurlString_noLeaksEmpty();                                          //                  |                   |                   |
+    test_http_destroyCurlString_noLeaksOneInsert();                                      //                  |                   |                   |
+    test_http_destroyCurlString_noLeaksManyInserts();                                    //                  |                   |                   |
+    (void)fputs(GREEN "Unit tests for destroyCurlString passed" RESET "\n", stderr); //                      |                   |                   |
+    // === UNIT TESTS - http - END createCurlString ==========================================================                   |                   |
+    //                                                                                                                           |                   |
+    // === UNIT TESTS - http - START curlWriteCallback =======================================================                   |                   |
+    (void)fputs(MAGENTA "Starting unit tests for curlWriteCallback" RESET "\n", stderr); //                  |                   |                   |
+    test_http_curlWriteCallback_basicInserts();                                          //                  |                   |                   |
+    test_http_curlWriteCallback_NonASCIIUTF8Inserts();                                   //                  |                   |                   |
+    test_http_curlWriteCallback_HTMLInsert();                                            //                  |                   |                   |
+    (void)fputs(GREEN "Unit tests for curlWriteCallback passed" RESET "\n", stderr); //                      |                   |                   |
+    // === UNIT TESTS - http - END curlWriteCallback =========================================================                   |                   |
+    //                                                                                                                           |                   |
+#ifndef MSAN_SKIP //                                                                                                             |                   |
+    // === UNIT TESTS - http - START makeGETRequestAndReturnUTF8Response =====================================                   |                   |
+    (void)fputs(MAGENTA "Starting unit tests for makeGETRequestAndReturnUTF8Response " RESET "\n", stderr); //                   |                   |
+    test_http_makeGETRequestAndReturnUTF8Response_nullTerminator();                                         //                   |                   |
+    test_http_makeGETRequestAndReturnUTF8Response_basicRequest();                                           //                   |                   |
+    test_http_makeGETRequestAndReturnUTF8Response_nonASCIIUTF8();                                           //                   |                   |
+    test_http_makeGETRequestAndReturnUTF8Response_longHTMLPage();                                           //                   |                   |
+    (void)fputs(GREEN "Unit tests for makeGETRequestAndReturnUTF8Response passed" RESET "\n", stderr);      //                   |                   |
+    // === UNIT TESTS - http - END curlWriteCallback =========================================================                   |                   |
+#endif //                                                                                                                        |                   |
+    //                                                                                                                           |                   |
+    (void)fputs(GREEN "All unit tests for http passed" RESET "\n", stderr); //                                                   |                   |
+    //                                                                                                                           |                   |
+    // === UNIT TESTS - END http =================================================================================================                   |
     (void)fputs(GREEN "All unit tests passed" RESET "\n", stderr); //                                                                                |
     //                                                                                                                                               |
     // === END UNIT TESTS ============================================================================================================================
     (void)fputs(MAGENTA "Complete test suite passed" RESET "\n", stderr);
-
-// Would need to compile curl with memsan for this to pass
-#ifndef WIKICYCLE_MSAN_BUILD
-    const char8_t *const url = u8"www.example.com";
-    char8_t *output = makeGETRequestAndReturnUTF8Response(url);
-    // flawfinder: ignore
-    printf("%s\n", output);
-    free(output);
-#endif
 
     return 0;
 }
