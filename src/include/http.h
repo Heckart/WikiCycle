@@ -20,7 +20,7 @@ typedef struct CurlString {
 // Modifies:   Nothing existing. On AMD64, allocates (20) bytes on the heap.
 // Tests:      Not implemented yet.
 // Status:     Done.
-CurlString *createCurlString();
+CurlString *createCurlString(void);
 
 // Purpose:    Destroys a CurlString
 // Parameters: A CurlString* pointing to the CurlString to be destroyed.

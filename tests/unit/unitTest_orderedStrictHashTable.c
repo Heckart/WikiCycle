@@ -12,7 +12,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-void test_createOSHT_properMemberInitializations() {
+void test_createOSHT_properMemberInitializations(void) {
     constexpr uint_least32_t bucket_size = 10;
     OrderedStrictHashTable *const pTestOSHT = createOSHT(bucket_size);
     defer { destroyOSHT(pTestOSHT); }
@@ -26,7 +26,7 @@ void test_createOSHT_properMemberInitializations() {
     }
 }
 
-void test_createOSHT_zeroBucketInitialization() {
+void test_createOSHT_zeroBucketInitialization(void) {
     constexpr uint_least32_t bucket_size = 0;
 
     /*
@@ -52,13 +52,13 @@ void test_createOSHT_zeroBucketInitialization() {
     assert(WEXITSTATUS(status) == EMPTY_BUCKET_RC);
 }
 
-void test_destroyOSHT_noLeaksAfterNoInserts() {
+void test_destroyOSHT_noLeaksAfterNoInserts(void) {
     constexpr uint_least32_t bucket_size = 500;
     OrderedStrictHashTable *const pTestOSHT = createOSHT(bucket_size);
     destroyOSHT(pTestOSHT);
 }
 
-void test_destroyOSHT_noLeaksAfterOneInsert() {
+void test_destroyOSHT_noLeaksAfterOneInsert(void) {
     constexpr uint_least32_t bucket_size = 500;
     OrderedStrictHashTable *const pTestOSHT = createOSHT(bucket_size);
     defer { destroyOSHT(pTestOSHT); }
@@ -66,7 +66,7 @@ void test_destroyOSHT_noLeaksAfterOneInsert() {
     insertToOSHT(pTestOSHT, u8"Testing");
 }
 
-void test_destroyOSHT_noLeaksAfterMultipleInserts() {
+void test_destroyOSHT_noLeaksAfterMultipleInserts(void) {
     constexpr uint_least32_t bucket_size = 1000;
     OrderedStrictHashTable *const pTestOSHT = createOSHT(bucket_size);
     defer { destroyOSHT(pTestOSHT); }
@@ -81,7 +81,7 @@ void test_destroyOSHT_noLeaksAfterMultipleInserts() {
     insertToOSHT(pTestOSHT, u8"testing");
 }
 
-void test_hashExistsInOSHT_checkNodesThatExist() {
+void test_hashExistsInOSHT_checkNodesThatExist(void) {
     constexpr uint_least32_t bucket_size = 700;
     OrderedStrictHashTable *const pTestOSHT = createOSHT(bucket_size);
     defer { destroyOSHT(pTestOSHT); }
@@ -103,7 +103,7 @@ void test_hashExistsInOSHT_checkNodesThatExist() {
     assert(hashExistsInOSHT(pTestOSHT, calcHash(u8"exist", pTestOSHT)) == true);
 }
 
-void test_hashExistsInOSHT_checkNodesThatDoNotExist() {
+void test_hashExistsInOSHT_checkNodesThatDoNotExist(void) {
     constexpr uint_least32_t bucket_size = 357;
     OrderedStrictHashTable *const pTestOSHT = createOSHT(bucket_size);
     defer { destroyOSHT(pTestOSHT); }
@@ -119,7 +119,7 @@ void test_hashExistsInOSHT_checkNodesThatDoNotExist() {
     assert(hashExistsInOSHT(pTestOSHT, calcHash(u8":(", pTestOSHT)) == false);
 }
 
-void test_insertToOSHT_basicNodeInsertions() {
+void test_insertToOSHT_basicNodeInsertions(void) {
     constexpr uint_least32_t bucket_size = 10000;
     OrderedStrictHashTable *const pTestOSHT = createOSHT(bucket_size);
     defer { destroyOSHT(pTestOSHT); }
@@ -160,7 +160,7 @@ void test_insertToOSHT_basicNodeInsertions() {
     assert(pTestOSHT->pTail_node->pNext_node == nullptr);
 }
 
-void test_insertToOSHT_duplicateInsertion() {
+void test_insertToOSHT_duplicateInsertion(void) {
     constexpr uint_least32_t bucket_size = 77;
     OrderedStrictHashTable *const pTestOSHT = createOSHT(bucket_size);
     defer { destroyOSHT(pTestOSHT); }
@@ -173,7 +173,7 @@ void test_insertToOSHT_duplicateInsertion() {
                    LONGEST_WIKI_ARTICLE_LENGTH + 1) == 0);
 }
 
-void test_insertToOSHT_collision() {
+void test_insertToOSHT_collision(void) {
     constexpr uint_least32_t bucket_size = 2;
     OrderedStrictHashTable *const pTestOSHT = createOSHT(bucket_size);
     assert(insertToOSHT(pTestOSHT, u8"not a lotta space in here") == SUCCESSFUL_NODE_INSERTION);
@@ -197,7 +197,7 @@ void test_insertToOSHT_collision() {
     destroyOSHT(pTestOSHT);
 }
 
-void test_insertToOSHT_nonASCIIUTF8() {
+void test_insertToOSHT_nonASCIIUTF8(void) {
     constexpr uint_least32_t bucket_size = 1967;
     OrderedStrictHashTable *const pTestOSHT = createOSHT(bucket_size);
     defer { destroyOSHT(pTestOSHT); }

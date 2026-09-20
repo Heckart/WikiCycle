@@ -11,7 +11,7 @@
  * Performance tests will be a bit of a different situation. We will cross that bridge when we get there.
  */
 
-int main() {
+int main(void) {
 
     (void)fputs(MAGENTA "Starting test suite" RESET "\n", stderr);
     // === START UNIT TESTS ==========================================================================================================================

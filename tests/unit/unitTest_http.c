@@ -12,7 +12,7 @@
 #include <uchar.h>
 #include <unistd.h>
 
-void test_http_createCurlString_properInitialization() {
+void test_http_createCurlString_properInitialization(void) {
     CurlString *const pTestCurlString = createCurlString();
     defer { destroyCurlString(pTestCurlString); }
 
@@ -20,12 +20,12 @@ void test_http_createCurlString_properInitialization() {
     assert(pTestCurlString->pHttp_response[0] == '\0');
 }
 
-void test_http_destroyCurlString_noLeaksEmpty() {
+void test_http_destroyCurlString_noLeaksEmpty(void) {
     CurlString *const pTestCurlString = createCurlString();
     destroyCurlString(pTestCurlString);
 }
 
-void test_http_destroyCurlString_noLeaksOneInsert() {
+void test_http_destroyCurlString_noLeaksOneInsert(void) {
     CurlString *const pTestCurlString = createCurlString();
     defer { destroyCurlString(pTestCurlString); }
 
@@ -35,7 +35,7 @@ void test_http_destroyCurlString_noLeaksOneInsert() {
     curlWriteCallback(pInsertionString, 1, insertionCharacterCount, pTestCurlString);
 }
 
-void test_http_destroyCurlString_noLeaksManyInserts() {
+void test_http_destroyCurlString_noLeaksManyInserts(void) {
     CurlString *const pTestCurlString = createCurlString();
     defer { destroyCurlString(pTestCurlString); }
 
@@ -48,7 +48,7 @@ void test_http_destroyCurlString_noLeaksManyInserts() {
     curlWriteCallback(pSecondInsertionString, 1, secondInsertionCharacterCount, pTestCurlString);
 }
 
-void test_http_curlWriteCallback_basicInserts() {
+void test_http_curlWriteCallback_basicInserts(void) {
     CurlString *const pTestCurlString = createCurlString();
     defer { destroyCurlString(pTestCurlString); }
 
@@ -73,7 +73,7 @@ void test_http_curlWriteCallback_basicInserts() {
                    (const char *const)u8"This is the first insertion.\nThis is the 2nd insertion.Insertion #3!", 69) == 0);
 }
 
-void test_http_curlWriteCallback_NonASCIIUTF8Inserts() {
+void test_http_curlWriteCallback_NonASCIIUTF8Inserts(void) {
     CurlString *const pTestCurlString = createCurlString();
     defer { destroyCurlString(pTestCurlString); }
 
@@ -93,7 +93,7 @@ void test_http_curlWriteCallback_NonASCIIUTF8Inserts() {
                    94) == 0);
 }
 
-void test_http_curlWriteCallback_HTMLInsert() {
+void test_http_curlWriteCallback_HTMLInsert(void) {
     CurlString *const pTestCurlString = createCurlString();
     defer { destroyCurlString(pTestCurlString); }
 
@@ -104,7 +104,7 @@ void test_http_curlWriteCallback_HTMLInsert() {
     assert(strncmp((const char *const)pTestCurlString->pHttp_response, (const char *const)pFirstInsertString, 108) == 0);
 }
 
-void test_http_makeGETRequestAndReturnUTF8Response_nullTerminator() {
+void test_http_makeGETRequestAndReturnUTF8Response_nullTerminator(void) {
     startTestServer(u8"tests/test_infrastructure/index.html");
     char8_t *const pHTMLRequestOne = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert(pHTMLRequestOne[14] == '\0');
@@ -136,7 +136,7 @@ void test_http_makeGETRequestAndReturnUTF8Response_nullTerminator() {
     free(pHTMLRequestFive);
 }
 
-void test_http_makeGETRequestAndReturnUTF8Response_basicRequest() {
+void test_http_makeGETRequestAndReturnUTF8Response_basicRequest(void) {
     startTestServer(u8"tests/test_infrastructure/index.html");
     char8_t *const pHTMLRequestOne = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert(strncmp((const char *const)pHTMLRequestOne, "Hello, World!\n", 15) == 0);
@@ -157,7 +157,7 @@ void test_http_makeGETRequestAndReturnUTF8Response_basicRequest() {
     free(pHTMLRequestTwo);
 }
 
-void test_http_makeGETRequestAndReturnUTF8Response_nonASCIIUTF8() {
+void test_http_makeGETRequestAndReturnUTF8Response_nonASCIIUTF8(void) {
     startTestServer(u8"tests/test_infrastructure/emoji.html");
     char8_t *const pHTMLRequestOne = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert(strncmp((const char *const)pHTMLRequestOne, "🫠🫨🫪🤌🇲🇶\n", 21) == 0);
@@ -178,7 +178,7 @@ void test_http_makeGETRequestAndReturnUTF8Response_nonASCIIUTF8() {
     free(pHTMLRequestTwo);
 }
 
-void test_http_makeGETRequestAndReturnUTF8Response_longHTMLPage() {
+void test_http_makeGETRequestAndReturnUTF8Response_longHTMLPage(void) {
     startTestServer(u8"tests/test_infrastructure/unit_testing.html");
     char8_t *const pHTMLRequestOne = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert(
@@ -209,7 +209,7 @@ void test_http_makeGETRequestAndReturnUTF8Response_longHTMLPage() {
     free(pHTMLRequestOne);
 }
 
-void test_http_makeGETRequestAndReturnUTF8Response_exitOnFailedRequest() {
+void test_http_makeGETRequestAndReturnUTF8Response_exitOnFailedRequest(void) {
     const pid_t pid = fork();
     assert(pid >= 0);
 

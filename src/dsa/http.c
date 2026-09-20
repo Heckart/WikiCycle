@@ -12,7 +12,7 @@
 #include <string.h>
 #include <uchar.h>
 
-CurlString *createCurlString() {
+CurlString *createCurlString(void) {
     CurlString *const curlString = (CurlString *)malloc(sizeof(CurlString));
     if (curlString == nullptr) {
         perror("Allocation of curlString in createCurlString failed. Exiting now.");

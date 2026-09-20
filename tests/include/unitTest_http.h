@@ -2,20 +2,20 @@
 #ifndef WIKICYCLE_TESTS_INCLUDE_UNITTEST_HTTP_H_
 #define WIKICYCLE_TESTS_INCLUDE_UNITTEST_HTTP_H_
 
-void test_http_createCurlString_properInitialization();
+void test_http_createCurlString_properInitialization(void);
 
-void test_http_destroyCurlString_noLeaksEmpty();
-void test_http_destroyCurlString_noLeaksOneInsert();
-void test_http_destroyCurlString_noLeaksManyInserts();
+void test_http_destroyCurlString_noLeaksEmpty(void);
+void test_http_destroyCurlString_noLeaksOneInsert(void);
+void test_http_destroyCurlString_noLeaksManyInserts(void);
 
-void test_http_curlWriteCallback_basicInserts();
-void test_http_curlWriteCallback_NonASCIIUTF8Inserts();
-void test_http_curlWriteCallback_HTMLInsert();
+void test_http_curlWriteCallback_basicInserts(void);
+void test_http_curlWriteCallback_NonASCIIUTF8Inserts(void);
+void test_http_curlWriteCallback_HTMLInsert(void);
 
-void test_http_makeGETRequestAndReturnUTF8Response_nullTerminator();
-void test_http_makeGETRequestAndReturnUTF8Response_basicRequest();
-void test_http_makeGETRequestAndReturnUTF8Response_nonASCIIUTF8();
-void test_http_makeGETRequestAndReturnUTF8Response_longHTMLPage();
-void test_http_makeGETRequestAndReturnUTF8Response_exitOnFailedRequest();
+void test_http_makeGETRequestAndReturnUTF8Response_nullTerminator(void);
+void test_http_makeGETRequestAndReturnUTF8Response_basicRequest(void);
+void test_http_makeGETRequestAndReturnUTF8Response_nonASCIIUTF8(void);
+void test_http_makeGETRequestAndReturnUTF8Response_longHTMLPage(void);
+void test_http_makeGETRequestAndReturnUTF8Response_exitOnFailedRequest(void);
 
 #endif // WIKICYCLE_TESTS_INCLUDE_UNITTEST_HTTP_H_
