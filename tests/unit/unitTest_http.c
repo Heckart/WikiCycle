@@ -1,13 +1,16 @@
 #define _POSIX_C_SOURCE 200809L
 #include "../include/unitTest_http.h"
 #include "../../src/include/http.h"
+#include "../../src/include/returnCodes.h"
 #include "../include/localhost_http_server.h"
 #include <assert.h>
 #include <stddefer.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/wait.h>
 #include <uchar.h>
+#include <unistd.h>
 
 void test_http_createCurlString_properInitialization() {
     CurlString *const pTestCurlString = createCurlString();
@@ -204,4 +207,23 @@ void test_http_makeGETRequestAndReturnUTF8Response_longHTMLPage() {
     assert(strnlen((const char *const)pHTMLRequestOne, 341161) == 341160);
     stopTestServer();
     free(pHTMLRequestOne);
+}
+
+void test_http_makeGETRequestAndReturnUTF8Response_exitOnFailedRequest() {
+    const pid_t pid = fork();
+    assert(pid >= 0);
+
+    if (pid == 0) {
+        // this is the child process
+        char8_t *const pHTMLRequestOne = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
+        free(pHTMLRequestOne); // SHUT UP COMPILER!
+        assert(false);
+    }
+
+    // this is the parent process
+    int_least32_t status = -1;
+    const pid_t result = waitpid(pid, (int *)&status, 0);
+    assert(result == pid);
+    // cppcheck-suppress assertWithSideEffect
+    assert(WEXITSTATUS(status) == CURL_PERFORM_FAILURE_RC);
 }

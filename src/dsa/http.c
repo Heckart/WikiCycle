@@ -78,7 +78,7 @@ char8_t *makeGETRequestAndReturnUTF8Response(const char8_t *const pUrl) {
         curl_easy_setopt(pCurl_client, CURLOPT_WRITEDATA, pResponse_string);
         curl_rc = curl_easy_perform(pCurl_client);
         if (curl_rc != CURLE_OK) {
-            perror("Request to URL failed. Exiting now.");
+            puts("Request to URL failed. Exiting now.");
             exit(CURL_PERFORM_FAILURE_RC);
         }
 

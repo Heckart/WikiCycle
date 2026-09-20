@@ -16,5 +16,6 @@ void test_http_makeGETRequestAndReturnUTF8Response_nullTerminator();
 void test_http_makeGETRequestAndReturnUTF8Response_basicRequest();
 void test_http_makeGETRequestAndReturnUTF8Response_nonASCIIUTF8();
 void test_http_makeGETRequestAndReturnUTF8Response_longHTMLPage();
+void test_http_makeGETRequestAndReturnUTF8Response_exitOnFailedRequest();
 
 #endif // WIKICYCLE_TESTS_INCLUDE_UNITTEST_HTTP_H_

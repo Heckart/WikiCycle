@@ -105,6 +105,7 @@ int main() {
     test_http_makeGETRequestAndReturnUTF8Response_basicRequest();                                           //                   |                   |
     test_http_makeGETRequestAndReturnUTF8Response_nonASCIIUTF8();                                           //                   |                   |
     test_http_makeGETRequestAndReturnUTF8Response_longHTMLPage();                                           //                   |                   |
+    test_http_makeGETRequestAndReturnUTF8Response_exitOnFailedRequest();                                    //                   |                   |
     (void)fputs(GREEN "Unit tests for makeGETRequestAndReturnUTF8Response passed" RESET "\n", stderr);      //                   |                   |
     // === UNIT TESTS - http - END curlWriteCallback =========================================================                   |                   |
 #endif //                                                                                                                        |                   |
