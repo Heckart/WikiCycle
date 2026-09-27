@@ -14,7 +14,7 @@ void test_getIndexOfFirstWikiParagraph_firstParaDoesntExist(void);
 
 void test_maintainPunctuationCounts_sentences(void);
 
-void test_getNextWikiArticleLinkFromWikiParagraph_linkExists(void);
-void test_getNextWikiArticleLinkFromWikiParagraph_linkDoesntExist(void);
+void test_getNextWikiArticleSlugFromWikiParagraph_linkExists(void);
+void test_getNextWikiArticleSlugFromWikiParagraph_linkDoesntExist(void);
 
 #endif // WIKICYCLE_TESTS_INCLUDE_UNITTEST_WIKISTRINGSEARCH_H_

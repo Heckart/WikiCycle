@@ -185,7 +185,7 @@ void test_maintainPunctuationCounts_sentences(void) {
     assert(curly_count == 0);
 }
 
-void test_getNextWikiArticleLinkFromWikiParagraph_linkExists(void) {
+void test_getNextWikiArticleSlugFromWikiParagraph_linkExists(void) {
     char8_t *const pUnit_testing = read_file_to_string(u8"tests/test_infrastructure/unit_testing.json");
     defer { free(pUnit_testing); }
     [[clang::suppress]] // analyzer doesnt understand defer yet
@@ -200,7 +200,7 @@ void test_getNextWikiArticleLinkFromWikiParagraph_linkExists(void) {
     assert(strncmp((const char *const)pTitle2, "Belief", 7) == 0);
 }
 
-void test_getNextWikiArticleLinkFromWikiParagraph_linkDoesntExist(void) {
+void test_getNextWikiArticleSlugFromWikiParagraph_linkDoesntExist(void) {
     char8_t *const pEmoji = read_file_to_string(u8"tests/test_infrastructure/emoji.txt");
     defer { free(pEmoji); }
     [[clang::suppress]] // analyzer doesnt understand defer yet

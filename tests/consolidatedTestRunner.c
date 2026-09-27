@@ -149,12 +149,12 @@ int main(void) {
     (void)fputs(GREEN "Unit tests for maintainPunctuationCounts passed" RESET "\n", stderr);     //          |                   |                   |
     // === UNIT TESTS - wikiStringSearch - END curlWriteCallback =============================================                   |                   |
     //                                                                                                                           |                   |
-    // === UNIT TESTS - wikiStringSearch - START getNextWikiArticleLinkFromWikiParagraph =====================                   |                   |
-    (void)fputs(MAGENTA "Starting unit tests for getNextWikiArticleLinkFromWikiParagraph" RESET "\n", stderr); //                |                   |
-    test_getNextWikiArticleLinkFromWikiParagraph_linkExists();                                                 //                |                   |
-    test_getNextWikiArticleLinkFromWikiParagraph_linkDoesntExist();                                            //                |                   |
-    (void)fputs(GREEN "Unit tests for getNextWikiArticleLinkFromWikiParagraph passed" RESET "\n", stderr);     //                |                   |
-    // === UNIT TESTS - wikiStringSearch - END getNextWikiArticleLinkFromWikiParagraph =======================                   |                   |
+    // === UNIT TESTS - wikiStringSearch - START getNextWikiArticleSlugFromWikiParagraph =====================                   |                   |
+    (void)fputs(MAGENTA "Starting unit tests for getNextWikiArticleSlugFromWikiParagraph" RESET "\n", stderr); //                |                   |
+    test_getNextWikiArticleSlugFromWikiParagraph_linkExists();                                                 //                |                   |
+    test_getNextWikiArticleSlugFromWikiParagraph_linkDoesntExist();                                            //                |                   |
+    (void)fputs(GREEN "Unit tests for getNextWikiArticleSlugFromWikiParagraph passed" RESET "\n", stderr);     //                |                   |
+    // === UNIT TESTS - wikiStringSearch - END getNextWikiArticleSlugFromWikiParagraph =======================                   |                   |
     //                                                                                                                           |                   |
     (void)fputs(GREEN "All unit tests for wikiStringSearch passed" RESET "\n", stderr); //                                       |                   |
     //                                                                                                                           |                   |
