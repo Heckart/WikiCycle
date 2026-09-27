@@ -1,5 +1,4 @@
 #define _POSIX_C_SOURCE 200809L
-#define LONGEST_WIKI_ARTICLE_LENGTH 255
 #include "../include/unitTest_orderedStrictHashTable.h"
 #include "../../src/include/orderedStrictHashTable.h"
 #include "../../src/include/returnCodes.h"
@@ -125,37 +124,32 @@ void test_insertToOSHT_basicNodeInsertions(void) {
     defer { destroyOSHT(pTestOSHT); }
 
     assert(insertToOSHT(pTestOSHT, u8"The first node") == SUCCESSFUL_NODE_INSERTION);
-    assert(strncmp((const char *const)pTestOSHT->pStart_node->pNode_name, (const char *const)u8"The first node", LONGEST_WIKI_ARTICLE_LENGTH + 1) ==
-           0);
-    assert(strncmp((const char *const)pTestOSHT->pTail_node->pNode_name, (const char *const)u8"The first node", LONGEST_WIKI_ARTICLE_LENGTH + 1) ==
-           0);
+    assert(strncmp((const char *const)pTestOSHT->pStart_node->pNode_name, (const char *const)u8"The first node", LONGEST_WIKI_ARTICLE_NAME + 1) == 0);
+    assert(strncmp((const char *const)pTestOSHT->pTail_node->pNode_name, (const char *const)u8"The first node", LONGEST_WIKI_ARTICLE_NAME + 1) == 0);
     assert(pTestOSHT->pStart_node->pNext_node == nullptr);
     assert(pTestOSHT->pTail_node->pNext_node == nullptr);
 
     assert(insertToOSHT(pTestOSHT, u8"It's node number 2") == SUCCESSFUL_NODE_INSERTION);
-    assert(strncmp((const char *const)pTestOSHT->pStart_node->pNode_name, (const char *const)u8"The first node", LONGEST_WIKI_ARTICLE_LENGTH + 1) ==
+    assert(strncmp((const char *const)pTestOSHT->pStart_node->pNode_name, (const char *const)u8"The first node", LONGEST_WIKI_ARTICLE_NAME + 1) == 0);
+    assert(strncmp((const char *const)pTestOSHT->pTail_node->pNode_name, (const char *const)u8"It's node number 2", LONGEST_WIKI_ARTICLE_NAME + 1) ==
            0);
-    assert(strncmp((const char *const)pTestOSHT->pTail_node->pNode_name, (const char *const)u8"It's node number 2",
-                   LONGEST_WIKI_ARTICLE_LENGTH + 1) == 0);
     assert(pTestOSHT->pStart_node != pTestOSHT->pTail_node);
     assert(pTestOSHT->pStart_node->pNext_node == pTestOSHT->pTail_node);
     assert(pTestOSHT->pTail_node->pNext_node == nullptr);
 
     assert(insertToOSHT(pTestOSHT, u8"Node tres is pretty cool") == SUCCESSFUL_NODE_INSERTION);
-    assert(strncmp((const char *const)pTestOSHT->pStart_node->pNode_name, (const char *const)u8"The first node", LONGEST_WIKI_ARTICLE_LENGTH + 1) ==
-           0);
+    assert(strncmp((const char *const)pTestOSHT->pStart_node->pNode_name, (const char *const)u8"The first node", LONGEST_WIKI_ARTICLE_NAME + 1) == 0);
     assert(strncmp((const char *const)pTestOSHT->pStart_node->pNext_node->pNode_name, (const char *const)u8"It's node number 2",
-                   LONGEST_WIKI_ARTICLE_LENGTH + 1) == 0);
+                   LONGEST_WIKI_ARTICLE_NAME + 1) == 0);
     assert(strncmp((const char *const)pTestOSHT->pTail_node->pNode_name, (const char *const)u8"Node tres is pretty cool",
-                   LONGEST_WIKI_ARTICLE_LENGTH + 1) == 0);
+                   LONGEST_WIKI_ARTICLE_NAME + 1) == 0);
     assert(pTestOSHT->pStart_node != pTestOSHT->pTail_node);
     assert(pTestOSHT->pTail_node->pNext_node == nullptr);
     assert(pTestOSHT->pStart_node->pNext_node->pNext_node == pTestOSHT->pTail_node);
 
     assert(insertToOSHT(pTestOSHT, u8"") == SUCCESSFUL_NODE_INSERTION);
-    assert(strncmp((const char *const)pTestOSHT->pStart_node->pNode_name, (const char *const)u8"The first node", LONGEST_WIKI_ARTICLE_LENGTH + 1) ==
-           0);
-    assert(strncmp((const char *const)pTestOSHT->pTail_node->pNode_name, (const char *const)u8"", LONGEST_WIKI_ARTICLE_LENGTH + 1) == 0);
+    assert(strncmp((const char *const)pTestOSHT->pStart_node->pNode_name, (const char *const)u8"The first node", LONGEST_WIKI_ARTICLE_NAME + 1) == 0);
+    assert(strncmp((const char *const)pTestOSHT->pTail_node->pNode_name, (const char *const)u8"", LONGEST_WIKI_ARTICLE_NAME + 1) == 0);
     assert(pTestOSHT->pStart_node != pTestOSHT->pTail_node);
     assert(pTestOSHT->pTail_node->pNext_node == nullptr);
 }
@@ -168,9 +162,9 @@ void test_insertToOSHT_duplicateInsertion(void) {
     assert(insertToOSHT(pTestOSHT, u8"deja vu") == SUCCESSFUL_NODE_INSERTION);
     assert(insertToOSHT(pTestOSHT, u8"deja vu") == DUPLICATE_NODE_INSERTION);
     assert(insertToOSHT(pTestOSHT, u8"Haven't seen this one") == SUCCESSFUL_NODE_INSERTION);
-    assert(strncmp((const char *const)pTestOSHT->pStart_node->pNode_name, (const char *const)u8"deja vu", LONGEST_WIKI_ARTICLE_LENGTH + 1) == 0);
+    assert(strncmp((const char *const)pTestOSHT->pStart_node->pNode_name, (const char *const)u8"deja vu", LONGEST_WIKI_ARTICLE_NAME + 1) == 0);
     assert(strncmp((const char *const)pTestOSHT->pTail_node->pNode_name, (const char *const)u8"Haven't seen this one",
-                   LONGEST_WIKI_ARTICLE_LENGTH + 1) == 0);
+                   LONGEST_WIKI_ARTICLE_NAME + 1) == 0);
 }
 
 void test_insertToOSHT_collision(void) {
@@ -203,36 +197,35 @@ void test_insertToOSHT_nonASCIIUTF8(void) {
     defer { destroyOSHT(pTestOSHT); }
 
     assert(insertToOSHT(pTestOSHT, u8"這句話是中文的。") == SUCCESSFUL_NODE_INSERTION);
-    assert(strncmp((const char *const)pTestOSHT->pStart_node->pNode_name, (const char *const)u8"這句話是中文的。", LONGEST_WIKI_ARTICLE_LENGTH + 1) ==
+    assert(strncmp((const char *const)pTestOSHT->pStart_node->pNode_name, (const char *const)u8"這句話是中文的。", LONGEST_WIKI_ARTICLE_NAME + 1) ==
            0);
-    assert(strncmp((const char *const)pTestOSHT->pTail_node->pNode_name, (const char *const)u8"這句話是中文的。", LONGEST_WIKI_ARTICLE_LENGTH + 1) ==
+    assert(strncmp((const char *const)pTestOSHT->pTail_node->pNode_name, (const char *const)u8"這句話是中文的。", LONGEST_WIKI_ARTICLE_NAME + 1) ==
            0);
     assert(pTestOSHT->pStart_node->pNext_node == nullptr);
     assert(pTestOSHT->pTail_node->pNext_node == nullptr);
 
     assert(insertToOSHT(pTestOSHT, u8"یہ اردو میں ہے۔") == SUCCESSFUL_NODE_INSERTION);
-    assert(strncmp((const char *const)pTestOSHT->pStart_node->pNode_name, (const char *const)u8"這句話是中文的。", LONGEST_WIKI_ARTICLE_LENGTH + 1) ==
+    assert(strncmp((const char *const)pTestOSHT->pStart_node->pNode_name, (const char *const)u8"這句話是中文的。", LONGEST_WIKI_ARTICLE_NAME + 1) ==
            0);
-    assert(strncmp((const char *const)pTestOSHT->pTail_node->pNode_name, (const char *const)u8"یہ اردو میں ہے۔", LONGEST_WIKI_ARTICLE_LENGTH + 1) ==
-           0);
+    assert(strncmp((const char *const)pTestOSHT->pTail_node->pNode_name, (const char *const)u8"یہ اردو میں ہے۔", LONGEST_WIKI_ARTICLE_NAME + 1) == 0);
     assert(pTestOSHT->pStart_node != pTestOSHT->pTail_node);
     assert(pTestOSHT->pStart_node->pNext_node == pTestOSHT->pTail_node);
     assert(pTestOSHT->pTail_node->pNext_node == nullptr);
 
     assert(insertToOSHT(pTestOSHT, u8"🧌🪤🗿") == SUCCESSFUL_NODE_INSERTION);
-    assert(strncmp((const char *const)pTestOSHT->pStart_node->pNode_name, (const char *const)u8"這句話是中文的。", LONGEST_WIKI_ARTICLE_LENGTH + 1) ==
+    assert(strncmp((const char *const)pTestOSHT->pStart_node->pNode_name, (const char *const)u8"這句話是中文的。", LONGEST_WIKI_ARTICLE_NAME + 1) ==
            0);
     assert(strncmp((const char *const)pTestOSHT->pStart_node->pNext_node->pNode_name, (const char *const)u8"یہ اردو میں ہے۔",
-                   LONGEST_WIKI_ARTICLE_LENGTH + 1) == 0);
-    assert(strncmp((const char *const)pTestOSHT->pTail_node->pNode_name, (const char *const)u8"🧌🪤🗿", LONGEST_WIKI_ARTICLE_LENGTH + 1) == 0);
+                   LONGEST_WIKI_ARTICLE_NAME + 1) == 0);
+    assert(strncmp((const char *const)pTestOSHT->pTail_node->pNode_name, (const char *const)u8"🧌🪤🗿", LONGEST_WIKI_ARTICLE_NAME + 1) == 0);
     assert(pTestOSHT->pStart_node != pTestOSHT->pTail_node);
     assert(pTestOSHT->pTail_node->pNext_node == nullptr);
     assert(pTestOSHT->pStart_node->pNext_node->pNext_node == pTestOSHT->pTail_node);
 
     assert(insertToOSHT(pTestOSHT, u8"Ñ") == SUCCESSFUL_NODE_INSERTION);
-    assert(strncmp((const char *const)pTestOSHT->pStart_node->pNode_name, (const char *const)u8"這句話是中文的。", LONGEST_WIKI_ARTICLE_LENGTH + 1) ==
+    assert(strncmp((const char *const)pTestOSHT->pStart_node->pNode_name, (const char *const)u8"這句話是中文的。", LONGEST_WIKI_ARTICLE_NAME + 1) ==
            0);
-    assert(strncmp((const char *const)pTestOSHT->pTail_node->pNode_name, (const char *const)u8"Ñ", LONGEST_WIKI_ARTICLE_LENGTH + 1) == 0);
+    assert(strncmp((const char *const)pTestOSHT->pTail_node->pNode_name, (const char *const)u8"Ñ", LONGEST_WIKI_ARTICLE_NAME + 1) == 0);
     assert(pTestOSHT->pStart_node != pTestOSHT->pTail_node);
     assert(pTestOSHT->pTail_node->pNext_node == nullptr);
 }

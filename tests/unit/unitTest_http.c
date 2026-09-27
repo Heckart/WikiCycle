@@ -117,21 +117,21 @@ void test_http_makeGETRequestAndReturnUTF8Response_nullTerminator(void) {
     stopTestServer();
     free(pHTMLRequestTwo);
 
-    startTestServer(u8"tests/test_infrastructure/emoji.html");
+    startTestServer(u8"tests/test_infrastructure/emoji.txt");
     char8_t *const pHTMLRequestThree = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert(pHTMLRequestThree[25] == '\0');
     stopTestServer();
     free(pHTMLRequestThree);
 
-    startTestServer(u8"tests/test_infrastructure/greek.html");
+    startTestServer(u8"tests/test_infrastructure/greek.txt");
     char8_t *const pHTMLRequestFour = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert(pHTMLRequestFour[305] == '\0');
     stopTestServer();
     free(pHTMLRequestFour);
 
-    startTestServer(u8"tests/test_infrastructure/unit_testing.html");
+    startTestServer(u8"tests/test_infrastructure/unit_testing.json");
     char8_t *const pHTMLRequestFive = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
-    assert(pHTMLRequestFive[341160] == '\0');
+    assert(pHTMLRequestFive[210888] == '\0');
     stopTestServer();
     free(pHTMLRequestFive);
 }
@@ -158,7 +158,7 @@ void test_http_makeGETRequestAndReturnUTF8Response_basicRequest(void) {
 }
 
 void test_http_makeGETRequestAndReturnUTF8Response_nonASCIIUTF8(void) {
-    startTestServer(u8"tests/test_infrastructure/emoji.html");
+    startTestServer(u8"tests/test_infrastructure/emoji.txt");
     char8_t *const pHTMLRequestOne = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert(strncmp((const char *const)pHTMLRequestOne, "🫠🫨🫪🤌🇲🇶\n", 21) == 0);
     // cppcheck-suppress assertWithSideEffect
@@ -166,7 +166,7 @@ void test_http_makeGETRequestAndReturnUTF8Response_nonASCIIUTF8(void) {
     stopTestServer();
     free(pHTMLRequestOne);
 
-    startTestServer(u8"tests/test_infrastructure/greek.html");
+    startTestServer(u8"tests/test_infrastructure/greek.txt");
     char8_t *const pHTMLRequestTwo = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert(strncmp((const char *const)pHTMLRequestTwo,
                    "ὁ δὲ ἀνδρεῖος ἀνέκπληκτος ὡς ἄνθρωπος. φοβήσεται μὲν οὖν καὶ τὰ τοιαῦτα, ὡς δεῖ δὲ καὶ ὡς ὁ λόγος ὑπομενεῖ τοῦ καλοῦ ἕνεκα· "
@@ -179,21 +179,21 @@ void test_http_makeGETRequestAndReturnUTF8Response_nonASCIIUTF8(void) {
 }
 
 void test_http_makeGETRequestAndReturnUTF8Response_longHTMLPage(void) {
-    startTestServer(u8"tests/test_infrastructure/unit_testing.html");
+    startTestServer(u8"tests/test_infrastructure/unit_testing.json");
     char8_t *const pHTMLRequestOne = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
-    assert(
-        (strstr)((const char *const)pHTMLRequestOne,
-                 "<p id=\"mwCA\"><b id=\"mwCQ\">Unit testing</b>, also known as <b id=\"mwCg\">component</b> or <b id=\"mwCw\">module testing</b>, "
-                 "is a form of <a rel=\"mw:WikiLink\" href=\"https://en.wikipedia.org/wiki/Software_testing\" title=\"Software testing\" "
-                 "id=\"mwDA\">software testing</a> by which isolated <a rel=\"mw:WikiLink\" href=\"https://en.wikipedia.org/wiki/Source_code\" "
-                 "title=\"Source code\" id=\"mwDQ\">source code</a> is tested to validate expected behavior.") != nullptr);
     assert((strstr)((const char *const)pHTMLRequestOne,
-                    "<p>In <a rel=\"mw:WikiLink\" href=\"https://en.wikipedia.org/wiki/Software_engineering\" title=\"Software "
-                    "engineering\">software engineering</a>, a <a rel=\"mw:WikiLink\" href=\"https://en.wikipedia.org/wiki/Test_case_(software)\" "
-                    "title=\"Test case (software)\">test case</a> is a specification of the inputs, execution conditions, testing procedure, and "
-                    "expected results that define a single test to be executed to achieve a particular <a rel=\"mw:WikiLink\" "
-                    "href=\"https://en.wikipedia.org/wiki/Software_testing\" title=\"Software testing\">software testing</a> objective, such as to "
-                    "exercise a particular program path or to verify compliance with a specific requirement.") != nullptr);
+                    "<p><b>Unit testing</b>, also known as <b>component</b> or <b>module testing</b>, is a form of <a "
+                    "href=\\\"/wiki/Software_testing\\\" title=\\\"Software testing\\\">software testing</a> by which isolated <a "
+                    "href=\\\"/wiki/Source_code\\\" "
+                    "title=\\\"Source code\\\">source code</a> is tested to validate expected behavior.") != nullptr);
+    assert((strstr)((const char *const)pHTMLRequestOne,
+                    "<p>In <a href=\\\"/wiki/Software_engineering\\\" title=\\\"Software engineering\\\">software engineering</a>, a <a "
+                    "href=\\\"/wiki/Test_case_(software)\\\" title=\\\"Test case (software)\\\">test case</a> is a specification of the inputs, "
+                    "execution "
+                    "conditions, testing procedure, and expected results that define a single test to be executed to achieve a particular <a "
+                    "href=\\\"/wiki/Software_testing\\\" title=\\\"Software testing\\\">software testing</a> objective, such as to exercise a "
+                    "particular "
+                    "program path or to verify compliance with a specific requirement.") != nullptr);
     assert((strstr)((const char *const)pHTMLRequestOne, "Unit tests can be performed manually") != nullptr);
     assert((strstr)((const char *const)pHTMLRequestOne, "Test cases underlie testing that is methodical rather than haphazard.") != nullptr);
     assert((strstr)((const char *const)pHTMLRequestOne, "Use of parametrized tests can reduce test code duplication.") != nullptr);
@@ -204,7 +204,7 @@ void test_http_makeGETRequestAndReturnUTF8Response_longHTMLPage(void) {
     assert((strstr)((const char *const)pHTMLRequestOne, "Unit testing, also known as component or module testing, is a form of software testing by "
                                                         "which isolated source code is tested to validate expected behavior.") == nullptr);
     // cppcheck-suppress assertWithSideEffect
-    assert(strnlen((const char *const)pHTMLRequestOne, 341161) == 341160);
+    assert(strnlen((const char *const)pHTMLRequestOne, 210889) == 210888);
     stopTestServer();
     free(pHTMLRequestOne);
 }

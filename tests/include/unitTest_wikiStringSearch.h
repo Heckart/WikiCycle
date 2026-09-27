@@ -1,0 +1,20 @@
+// Copyright [2026] Ethan Heckart
+#ifndef WIKICYCLE_TESTS_INCLUDE_UNITTEST_WIKISTRINGSEARCH_H_
+#define WIKICYCLE_TESTS_INCLUDE_UNITTEST_WIKISTRINGSEARCH_H_
+
+void test_stringHasNAdditionalLength_lengthExists(void);
+void test_stringHasNAdditionalLength_lengthDoesntExist(void);
+void test_stringHasNAdditionalLength_nonASCIIUTF8Tests(void);
+
+void test_getWikiTitle_pagesWithTitles(void);
+void test_getWikiTitle_pagesWithoutTitles(void);
+
+void test_getIndexOfFirstWikiParagraph_firstParaExists(void);
+void test_getIndexOfFirstWikiParagraph_firstParaDoesntExist(void);
+
+void test_maintainPunctuationCounts_sentences(void);
+
+void test_getNextWikiArticleLinkFromWikiParagraph_linkExists(void);
+void test_getNextWikiArticleLinkFromWikiParagraph_linkDoesntExist(void);
+
+#endif // WIKICYCLE_TESTS_INCLUDE_UNITTEST_WIKISTRINGSEARCH_H_

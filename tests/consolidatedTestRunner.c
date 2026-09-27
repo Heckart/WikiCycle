@@ -1,6 +1,7 @@
 #include "include/unitTest_http.h"
 #include "include/unitTest_localhost_http_server.h"
 #include "include/unitTest_orderedStrictHashTable.h"
+#include "include/unitTest_wikiStringSearch.h"
 #include <stdio.h>
 #define GREEN "\x1b[32m"
 #define MAGENTA "\x1b[35m"
@@ -30,6 +31,8 @@ int main(void) {
     test_localhost_http_server_nonexistent_file();       //                                                  |                   |                   |
     (void)fputs(GREEN "Unit tests for localhost_http_server whole package passed" RESET "\n", stderr); //    |                   |                   |
     // === UNIT TESTS - localhost_http_server - END complete package =========================================                   |                   |
+    //                                                                                                                           |                   |
+    (void)fputs(GREEN "All unit tests for localhost_http_server passed" RESET "\n", stderr); //                                  |                   |
     //                                                                                                                           |                   |
     // == UNIT TESTS - END localhost_http_server =================================================================================                   |
     //                                                                                                                                               |
@@ -98,21 +101,65 @@ int main(void) {
     (void)fputs(GREEN "Unit tests for curlWriteCallback passed" RESET "\n", stderr); //                      |                   |                   |
     // === UNIT TESTS - http - END curlWriteCallback =========================================================                   |                   |
     //                                                                                                                           |                   |
-#ifndef MSAN_SKIP //                                                                                                             |                   |
     // === UNIT TESTS - http - START makeGETRequestAndReturnUTF8Response =====================================                   |                   |
+#ifndef MSAN_SKIP //                                                                                         |                   |                   |
     (void)fputs(MAGENTA "Starting unit tests for makeGETRequestAndReturnUTF8Response " RESET "\n", stderr); //                   |                   |
     test_http_makeGETRequestAndReturnUTF8Response_nullTerminator();                                         //                   |                   |
     test_http_makeGETRequestAndReturnUTF8Response_basicRequest();                                           //                   |                   |
     test_http_makeGETRequestAndReturnUTF8Response_nonASCIIUTF8();                                           //                   |                   |
     test_http_makeGETRequestAndReturnUTF8Response_longHTMLPage();                                           //                   |                   |
     test_http_makeGETRequestAndReturnUTF8Response_exitOnFailedRequest();                                    //                   |                   |
-    (void)fputs(GREEN "Unit tests for makeGETRequestAndReturnUTF8Response passed" RESET "\n", stderr);      //                   |                   |
+#endif //                                                                                                    |                   |                   |
+    (void)fputs(GREEN "Unit tests for makeGETRequestAndReturnUTF8Response passed" RESET "\n", stderr); //    |                   |                   |
     // === UNIT TESTS - http - END curlWriteCallback =========================================================                   |                   |
-#endif //                                                                                                                        |                   |
     //                                                                                                                           |                   |
     (void)fputs(GREEN "All unit tests for http passed" RESET "\n", stderr); //                                                   |                   |
     //                                                                                                                           |                   |
     // === UNIT TESTS - END http =================================================================================================                   |
+    //                                                                                                                                               |
+    // === UNIT TESTS - START wikiStringSearch ===================================================================================                   |
+    //                                                                                                                           |                   |
+    (void)fputs(MAGENTA "Starting unit tests for wikiStringSearch" RESET "\n", stderr); //                                       |                   |
+    //                                                                                                                           |                   |
+    // === UNIT TESTS - wikiStringSearch - stringHasNAdditionalLength START ==================================                   |                   |
+    (void)fputs(MAGENTA "Starting unit tests for stringHasNAdditionalLength" RESET "\n", stderr); //         |                   |                   |
+    test_stringHasNAdditionalLength_lengthExists();                                               //         |                   |                   |
+    test_stringHasNAdditionalLength_lengthDoesntExist();                                          //         |                   |                   |
+    test_stringHasNAdditionalLength_nonASCIIUTF8Tests();                                          //         |                   |                   |
+    (void)fputs(GREEN "Unit tests for stringHasNAdditionalLength passed" RESET "\n", stderr);     //         |                   |                   |
+    // === UNIT TESTS - wikiStringSearch - END stringHasNAdditionalLength ====================================                   |                   |
+    //                                                                                                                           |                   |
+    // === UNIT TESTS - wikiStringSearch - START getWikiTitle ================================================                   |                   |
+    (void)fputs(MAGENTA "Starting unit tests for getWikiTitle" RESET "\n", stderr); //                       |                   |                   |
+    test_getWikiTitle_pagesWithTitles();                                            //                       |                   |                   |
+    test_getWikiTitle_pagesWithoutTitles();                                         //                       |                   |                   |
+    (void)fputs(GREEN "Unit tests for getWikiTitle passed" RESET "\n", stderr);     //                       |                   |                   |
+    // === UNIT TESTS - wikiStringSearch - END getWikiTitle ==================================================                   |                   |
+    //                                                                                                                           |                   |
+    // === UNIT TESTS - wikiStringSearch - START getIndexOfFirstWikiParagraph ================================                   |                   |
+    (void)fputs(MAGENTA "Starting unit tests for getIndexOfFirstWikiParagraph" RESET "\n", stderr); //       |                   |                   |
+    test_getIndexOfFirstWikiParagraph_firstParaExists();                                            //       |                   |                   |
+    test_getIndexOfFirstWikiParagraph_firstParaDoesntExist();                                       //       |                   |                   |
+    (void)fputs(GREEN "Unit tests for getIndexOfFirstWikiParagraph passed" RESET "\n", stderr);     //       |                   |                   |
+    // === UNIT TESTS - wikiStringSearch - END getIndexOfFirstWikiParagraph ==================================                   |                   |
+    //                                                                                                                           |                   |
+    // === UNIT TESTS - wikiStringSearch - START maintainPunctuationCounts ===================================                   |                   |
+    (void)fputs(MAGENTA "Starting unit tests for maintainPunctuationCounts" RESET "\n", stderr); //          |                   |                   |
+    test_maintainPunctuationCounts_sentences();                                                  //          |                   |                   |
+    (void)fputs(GREEN "Unit tests for maintainPunctuationCounts passed" RESET "\n", stderr);     //          |                   |                   |
+    // === UNIT TESTS - wikiStringSearch - END curlWriteCallback =============================================                   |                   |
+    //                                                                                                                           |                   |
+    // === UNIT TESTS - wikiStringSearch - START getNextWikiArticleLinkFromWikiParagraph =====================                   |                   |
+    (void)fputs(MAGENTA "Starting unit tests for getNextWikiArticleLinkFromWikiParagraph" RESET "\n", stderr); //                |                   |
+    test_getNextWikiArticleLinkFromWikiParagraph_linkExists();                                                 //                |                   |
+    test_getNextWikiArticleLinkFromWikiParagraph_linkDoesntExist();                                            //                |                   |
+    (void)fputs(GREEN "Unit tests for getNextWikiArticleLinkFromWikiParagraph passed" RESET "\n", stderr);     //                |                   |
+    // === UNIT TESTS - wikiStringSearch - END getNextWikiArticleLinkFromWikiParagraph =======================                   |                   |
+    //                                                                                                                           |                   |
+    (void)fputs(GREEN "All unit tests for wikiStringSearch passed" RESET "\n", stderr); //                                       |                   |
+    //                                                                                                                           |                   |
+    // === UNIT TESTS - END wikiStringSearch =====================================================================================                   |
+    //                                                                                                                                               |
     (void)fputs(GREEN "All unit tests passed" RESET "\n", stderr); //                                                                                |
     //                                                                                                                                               |
     // === END UNIT TESTS ============================================================================================================================

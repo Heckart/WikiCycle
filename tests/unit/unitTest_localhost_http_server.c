@@ -68,7 +68,7 @@ void test_localhost_http_server_start_stop_start_again(void) {
 void test_localhost_http_server_nonASCII_UTF8(void) {
     char8_t buffer[BUFFER_SIZE];
 
-    startTestServer(u8"tests/test_infrastructure/emoji.html");
+    startTestServer(u8"tests/test_infrastructure/emoji.txt");
 
     // flawfinder: ignore. Curl opens a localhost file we have total control over.
     FILE *pCurlOutput = popen("curl localhost:8080", "r");
@@ -83,7 +83,7 @@ void test_localhost_http_server_nonASCII_UTF8(void) {
 
     buffer[0] = '\0';
 
-    startTestServer(u8"tests/test_infrastructure/greek.html");
+    startTestServer(u8"tests/test_infrastructure/greek.txt");
 
     // flawfinder: ignore. Curl opens a localhost file we have total control over.
     pCurlOutput = popen("curl localhost:8080", "r");
