@@ -1,7 +1,6 @@
 #define _POSIX_C_SOURCE 200809L
 // longest wikipedia article (as of 2026/09/08) is 255 1-byte unicode characters.
 // read: https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_records#Articles_with_the_longest_titles
-#define LONGEST_WIKI_ARTICLE_NAME 255
 #include "../include/orderedStrictHashTable.h"
 #include "../include/returnCodes.h"
 #include <assert.h>
