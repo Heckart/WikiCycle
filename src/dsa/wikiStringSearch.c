@@ -108,7 +108,6 @@ char8_t *getNextWikiArticleSlugFromWikiParagraph(const char8_t *const restrict p
     uint_least8_t live_parenthesis_present = 0;
     uint_least8_t live_square_bracket_present = 0;
     uint_least8_t live_curly_bracket_present = 0;
-    // find first <a rel=" which is not within a set of parenthesis or brackets
     for (int_fast64_t index = p_tag_offset; pWiki_article[index] != '\0'; ++index) {
         if (maintainPunctuationCounts(pWiki_article[index], &live_parenthesis_present, &live_square_bracket_present, &live_curly_bracket_present)) {
             continue;
