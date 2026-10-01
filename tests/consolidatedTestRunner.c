@@ -1,6 +1,7 @@
 #include "include/unitTest_http.h"
 #include "include/unitTest_localhost_http_server.h"
 #include "include/unitTest_orderedStrictHashTable.h"
+#include "include/unitTest_read_file_to_string.h"
 #include "include/unitTest_wikiStringSearch.h"
 #include <stdio.h>
 #define GREEN "\x1b[32m"
@@ -35,6 +36,23 @@ int main(void) {
     (void)fputs(GREEN "All unit tests for localhost_http_server passed" RESET "\n", stderr); //                                  |                   |
     //                                                                                                                           |                   |
     // == UNIT TESTS - END localhost_http_server =================================================================================                   |
+    //                                                                                                                                               |
+    // == UNIT TESTS - START read_file_from_string ===============================================================================                   |
+    //                                                                                                                           |                   |
+    (void)fputs(MAGENTA "Starting unit tests for read_file_from_string" RESET "\n", stderr); //                                  |                   |
+    //                                                                                                                           |                   |
+    // === UNIT TESTS - read_file_from_string - START whole package ==========================================                   |                   |
+    (void)fputs(MAGENTA "Starting unit tests for read_file_from_string whole package" RESET "\n", stderr); //|                   |                   |
+    test_read_file_to_string_basic_file_exists();                                                          //|                   |                   |
+    test_read_file_to_string_nonASCII_UTF8();                                                              //|                   |                   |
+    test_read_file_to_string_nullTerminator();                                                             //|                   |                   |
+    test_read_file_to_string_nonexistent_file();                                                           //|                   |                   |
+    (void)fputs(GREEN "Unit tests for read_file_from_string whole package passed" RESET "\n", stderr); //    |                   |                   |
+    // === UNIT TESTS - read_file_from_string - END complete package =========================================                   |                   |
+    //                                                                                                                           |                   |
+    (void)fputs(GREEN "All unit tests for read_file_from_string passed" RESET "\n", stderr); //                                  |                   |
+    //                                                                                                                           |                   |
+    // == UNIT TESTS - END read_file_from_string =================================================================================                   |
     //                                                                                                                                               |
     // === UNIT TESTS - START OrderedStrictHashTable =============================================================================                   |
     //                                                                                                                           |                   |

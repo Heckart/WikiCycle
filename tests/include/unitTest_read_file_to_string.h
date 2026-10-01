@@ -1,0 +1,10 @@
+// Copyright 2026 Ethan Heckart
+#ifndef WIKICYCLE_TESTS_INCLUDE_UNITTEST_READ_FILE_TO_STRING_H_
+#define WIKICYCLE_TESTS_INCLUDE_UNITTEST_READ_FILE_TO_STRING_H_
+
+void test_read_file_to_string_basic_file_exists(void);
+void test_read_file_to_string_nonASCII_UTF8(void);
+void test_read_file_to_string_nullTerminator(void);
+void test_read_file_to_string_nonexistent_file(void);
+
+#endif // WIKICYCLE_TESTS_INCLUDE_UNITTEST_READ_FILE_TO_STRING_H_
