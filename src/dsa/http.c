@@ -48,7 +48,7 @@ size_t curlWriteCallback(const void *const pReceived_data, const size_t input_co
 
     pResponse_string->pHttp_response = pUpdated_string;
     // flawfinder: ignore. Bounds check input_count * data_length is used during realloc eariler.
-    memcpy(&(pResponse_string->pHttp_response[pResponse_string->response_length]), (const char8_t *const)pReceived_data, (input_count * data_length));
+    memcpy(&pResponse_string->pHttp_response[pResponse_string->response_length], (const char8_t *const)pReceived_data, (input_count * data_length));
     pResponse_string->response_length += data_length;
     pResponse_string->pHttp_response[pResponse_string->response_length] = '\0';
 

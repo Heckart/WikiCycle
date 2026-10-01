@@ -12,11 +12,10 @@ Checks: '
 -cppcoreguidelines*,
 -google-readability-function-size,
 -hicpp-function-size,
--hicpp-signed-bitwise,
 -llvm-header-guard,
 -llvmlibc-restrict-system-libc-headers,
+-modernize-redundant-void-arg,
 -readability-avoid-const-params-in-decls,
--readability-const-return-type,
 -readability-function-cognitive-complexity,
 -readability-function-size
 '

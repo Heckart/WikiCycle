@@ -52,7 +52,7 @@ static void *serverMainThread(void *pHtml_file) {
         if (poll(&poll_fd, 1, wait_millis_for_event) <= 0) { // NOLINT(misc-include-cleaner)
             continue;
         }
-        if ((poll_fd.revents & (POLLNVAL | POLLERR | POLLHUP)) != 0) {
+        if (((uint_least32_t)poll_fd.revents & ((uint_least32_t)POLLNVAL | (uint_least32_t)POLLERR | (uint_least32_t)POLLHUP)) != 0) {
             if (!atomic_load(&server_continue)) {
                 break;
             }
