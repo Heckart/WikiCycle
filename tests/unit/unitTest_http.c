@@ -129,7 +129,7 @@ void test_http_makeGETRequestAndReturnUTF8Response_nullTerminator(void) {
     stopTestServer();
     free(pHTMLRequestFour);
 
-    startTestServer(u8"tests/test_infrastructure/unit_testing.json");
+    startTestServer(u8"tests/test_infrastructure/Unit_testing.json");
     char8_t *const pHTMLRequestFive = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert(pHTMLRequestFive[210888] == '\0');
     stopTestServer();
@@ -179,7 +179,7 @@ void test_http_makeGETRequestAndReturnUTF8Response_nonASCIIUTF8(void) {
 }
 
 void test_http_makeGETRequestAndReturnUTF8Response_longHTMLPage(void) {
-    startTestServer(u8"tests/test_infrastructure/unit_testing.json");
+    startTestServer(u8"tests/test_infrastructure/Unit_testing.json");
     char8_t *const pHTMLRequestOne = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert((strstr)((const char *const)pHTMLRequestOne,
                     "<p><b>Unit testing</b>, also known as <b>component</b> or <b>module testing</b>, is a form of <a "

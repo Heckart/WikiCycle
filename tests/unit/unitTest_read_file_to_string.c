@@ -27,7 +27,7 @@ void test_read_file_to_string_basic_file_exists(void) {
     assert((strstr)((const char *const)pTest_two, "<html>") != nullptr);
     assert((strstr)((const char *const)pTest_two, "This string does not exist") == nullptr);
 
-    char8_t *const pTest_three = read_file_to_string(u8"tests/test_infrastructure/unit_testing.json");
+    char8_t *const pTest_three = read_file_to_string(u8"tests/test_infrastructure/Unit_testing.json");
     defer { free(pTest_three); }
     // cppcheck-suppress assertWithSideEffect
     assert(strnlen((const char *const)pTest_three, 210889) == 210888);
@@ -95,7 +95,7 @@ void test_read_file_to_string_nullTerminator(void) {
     // cppcheck-suppress deallocuse
     assert(pTest_four[305] == '\0');
 
-    char8_t *const pTest_five = read_file_to_string(u8"tests/test_infrastructure/unit_testing.json");
+    char8_t *const pTest_five = read_file_to_string(u8"tests/test_infrastructure/Unit_testing.json");
     defer { free(pTest_five); }
     // cppcheck-suppress deallocuse
     assert(pTest_five[210888] == '\0');

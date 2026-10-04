@@ -1,3 +1,5 @@
+#include "include/integrationTest_http_wikiStringSearch.h"
+#include "include/integrationTest_wikiStringSearch_orderedStrictHashTable.h"
 #include "include/unitTest_http.h"
 #include "include/unitTest_localhost_http_server.h"
 #include "include/unitTest_orderedStrictHashTable.h"
@@ -181,6 +183,30 @@ int main(void) {
     (void)fputs(GREEN "All unit tests passed" RESET "\n", stderr); //                                                                                |
     //                                                                                                                                               |
     // === END UNIT TESTS ============================================================================================================================
+
+    // === START INTEGRATION TESTS ===================================================================================================================
+    //                                                                                                                                               |
+    (void)fputs(MAGENTA "Starting integration tests" RESET "\n", stderr); //                                                                         |
+    //                                                                                                                                               |
+    // == INTEGRATION TESTS - START http_wikiStringSearch ========================================================================                   |
+#ifndef MSAN_SKIP                                                                                   //                           |                   |
+    (void)fputs(MAGENTA "Starting integration for http_wikiStringSearch" RESET "\n", stderr);       //                           |                   |
+    test_http_wikiStringSearch_correctTitle();                                                      //                           |                   |
+    test_http_wikiStringSearch_correctSlug();                                                       //                           |                   |
+#endif                                                                                              //                           |                   |
+    (void)fputs(GREEN "All integration tests for http_wikiStringSearch passed" RESET "\n", stderr); //                           |                   |
+    // == INTEGRATION TESTS - END http_wikiStringSearch ==========================================================================                   |
+    //                                                                                                                                               |
+    // == INTEGRATION TESTS - START wikiStringSearch_orderedStrictHashTable ======================================================                   |
+    (void)fputs(MAGENTA "Starting integration for wikiStringSearch_orderedStrictHashTable" RESET "\n", stderr);       //         |                   |
+    test_wikiStringSearch_orderedStrictHashTable_findCycleOne();                                                      //         |                   |
+    test_wikiStringSearch_orderedStrictHashTable_findCycleTwo();                                                      //         |                   |
+    (void)fputs(GREEN "All integration tests for wikiStringSearch_orderedStrictHashTable passed" RESET "\n", stderr); //         |                   |
+    // == INTEGRATION TESTS - END wikiStringSearch_orderedStrictHashTable ========================================================                   |
+    //                                                                                                                                               |
+    (void)fputs(GREEN "All integration tests passed" RESET "\n", stderr); //                                                                         |
+    //                                                                                                                                               |
+    // === END INTEGRATION TESTS =====================================================================================================================
     (void)fputs(MAGENTA "Complete test suite passed" RESET "\n", stderr);
 
     return 0;

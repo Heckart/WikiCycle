@@ -1,0 +1,8 @@
+// Copyright [2026] Ethan Heckart
+#ifndef WIKICYCLE_TESTS_INCLUDE_INTEGRATIONTEST_HTTP_WIKISTRINGSEARCH_H_
+#define WIKICYCLE_TESTS_INCLUDE_INTEGRATIONTEST_HTTP_WIKISTRINGSEARCH_H_
+
+void test_http_wikiStringSearch_correctTitle(void);
+void test_http_wikiStringSearch_correctSlug(void);
+
+#endif // WIKICYCLE_TESTS_INCLUDE_INTEGRATIONTEST_HTTP_WIKISTRINGSEARCH_H_

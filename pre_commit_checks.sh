@@ -5,7 +5,7 @@ BIPurple='\033[1;35m'
 NC='\033[0m'
 TEST_COMPILER_FLAGS="-std=c2y -fdefer-ts -lcurl -Og -g3 -march=native -pipe"
 RELEASE_COMPILER_FLAGS="-std=c2y -fdefer-ts -lcurl -O3 -flto -march=native -pipe"
-TEST_SOURCE_FILES="tests/*.c src/dsa/*.c tests/test_infrastructure/*.c tests/unit/*.c"
+TEST_SOURCE_FILES="tests/*.c src/dsa/*.c tests/test_infrastructure/*.c tests/unit/*.c tests/integration/*.c"
 TEST_INCLUDE_FILES="src/include/*.h tests/include/*.h"
 RELEASE_SOURCE_FILES="src/*.c src/dsa/*.c"
 RELEASE_INCLUDE_FILES="src/include/*.h"

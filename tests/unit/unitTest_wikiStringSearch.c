@@ -39,7 +39,7 @@ void test_stringHasNAdditionalLength_nonASCIIUTF8Tests(void) {
 
 void test_getWikiTitle_pagesWithTitles(void) {
     int_least64_t fake_global_index = 0;
-    char8_t *const pUnit_testing = read_file_to_string(u8"tests/test_infrastructure/unit_testing.json");
+    char8_t *const pUnit_testing = read_file_to_string(u8"tests/test_infrastructure/Unit_testing.json");
     defer { free(pUnit_testing); }
     [[clang::suppress]] // analyzer doesnt understand defer yet
     char8_t *const pTitle = getWikiTitle(pUnit_testing, &fake_global_index);
@@ -47,7 +47,7 @@ void test_getWikiTitle_pagesWithTitles(void) {
     assert(strncmp((const char *const)pTitle, "Unit testing", 13) == 0);
     fake_global_index = 0;
 
-    char8_t *const pKnowledge = read_file_to_string(u8"tests/test_infrastructure/knowledge.json");
+    char8_t *const pKnowledge = read_file_to_string(u8"tests/test_infrastructure/Knowledge.json");
     defer { free(pKnowledge); }
     char8_t *const pTitle2 = getWikiTitle(pKnowledge, &fake_global_index);
     defer { free(pTitle2); }
@@ -88,7 +88,7 @@ void test_getIndexOfFirstWikiParagraph_firstParaExists(void) {
     constexpr int_least64_t ten_thousand = 10000;
 
     int_least64_t fake_global_index = 0;
-    char8_t *const pUnit_testing = read_file_to_string(u8"tests/test_infrastructure/unit_testing.json");
+    char8_t *const pUnit_testing = read_file_to_string(u8"tests/test_infrastructure/Unit_testing.json");
     defer { free(pUnit_testing); }
     [[clang::suppress]] // analyzer doesnt understand defer yet
     // cppcheck-suppress deallocuse
@@ -105,7 +105,7 @@ void test_getIndexOfFirstWikiParagraph_firstParaExists(void) {
 
     fake_global_index = 0;
 
-    char8_t *const pKnowledge = read_file_to_string(u8"tests/test_infrastructure/knowledge.json");
+    char8_t *const pKnowledge = read_file_to_string(u8"tests/test_infrastructure/Knowledge.json");
     defer { free(pKnowledge); }
     // cppcheck-suppress deallocuse
     assert(getIndexOfFirstWikiParagraph(pKnowledge, fake_global_index) == 17739);
@@ -186,14 +186,14 @@ void test_maintainPunctuationCounts_sentences(void) {
 }
 
 void test_getNextWikiArticleSlugFromWikiParagraph_linkExists(void) {
-    char8_t *const pUnit_testing = read_file_to_string(u8"tests/test_infrastructure/unit_testing.json");
+    char8_t *const pUnit_testing = read_file_to_string(u8"tests/test_infrastructure/Unit_testing.json");
     defer { free(pUnit_testing); }
     [[clang::suppress]] // analyzer doesnt understand defer yet
     char8_t *const pTitle = getNextWikiArticleSlugFromWikiParagraph(pUnit_testing, 0);
     defer { free(pTitle); }
     assert(strncmp((const char *const)pTitle, "Software_testing", 17) == 0);
 
-    char8_t *const pKnowledge = read_file_to_string(u8"tests/test_infrastructure/knowledge.json");
+    char8_t *const pKnowledge = read_file_to_string(u8"tests/test_infrastructure/Knowledge.json");
     defer { free(pKnowledge); }
     char8_t *const pTitle2 = getNextWikiArticleSlugFromWikiParagraph(pKnowledge, 0);
     defer { free(pTitle2); }
