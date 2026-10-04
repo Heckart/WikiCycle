@@ -7,7 +7,7 @@ WORKDIR /work
 COPY . .
 
 # hadolint ignore=DL3041
-RUN dnf install clang curl libcurl.x86_64 libcurl-devel.x86_64 valgrind --assumeyes && dnf clean all
+RUN dnf install clang curl libbsd-devel libcurl.x86_64 libcurl-devel.x86_64 valgrind --assumeyes && dnf clean all
 
 # yes, this entire container is literally just to be able to run valgrind on my dev box
-CMD ["bash", "-c", "clang -std=c2y -fdefer-ts -lcurl -Og -g3 -march=native -mno-avx512f -mno-avx512bw -mno-avx512vl -mno-avx512dq -pipe /work/src/dsa/*.c /work/tests/*.c /work/tests/unit/*.c /work/tests/test_infrastructure/*.c -I /work/src/include/*.h /work/tests/include/*.h; valgrind -s --trace-children=yes --leak-check=full --leak-resolution=high --show-leak-kinds=all --leak-check-heuristics=all --show-reachable=yes --show-possibly-lost=yes --track-origins=yes --undef-value-errors=yes --expensive-definedness-checks=yes --error-exitcode=1 /work/a.out"]
+CMD ["bash", "-c", "clang -std=c2y -fdefer-ts -lcurl -Og -g3 -march=native -mno-avx512f -mno-avx512bw -mno-avx512vl -mno-avx512dq -pipe /work/src/dsa/*.c /work/tests/*.c /work/tests/unit/*.c /work/tests/integration/*.c /work/tests/test_infrastructure/*.c -I /work/src/include/*.h /work/tests/include/*.h; valgrind -s --trace-children=yes --leak-check=full --leak-resolution=high --show-leak-kinds=all --leak-check-heuristics=all --show-reachable=yes --show-possibly-lost=yes --track-origins=yes --undef-value-errors=yes --expensive-definedness-checks=yes --error-exitcode=1 /work/a.out"]
