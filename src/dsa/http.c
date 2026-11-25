@@ -61,7 +61,8 @@ char8_t *makeGETRequestAndReturnUTF8Response(const char8_t *const pUrl) {
     CURL *pCurl_client;
     CURLcode curl_rc = curl_global_init(CURL_GLOBAL_ALL);
     if (curl_rc != CURLE_OK) {
-        perror("curl_global_init returned non-ok rc. Exiting now.");
+        // flawfinder: ignore; constant format fprintf
+        (void)fprintf(stderr, "curl_global_init returned non-ok rc: %d. Exiting now.", (int)curl_rc);
         exit((int)curl_rc);
     }
 
@@ -70,7 +71,7 @@ char8_t *makeGETRequestAndReturnUTF8Response(const char8_t *const pUrl) {
 
     pCurl_client = curl_easy_init();
     if (pCurl_client) {
-        curl_easy_setopt(pCurl_client, CURLOPT_USERAGENT, "WikiCycle/1.0");
+        curl_easy_setopt(pCurl_client, CURLOPT_USERAGENT, "WikiCycle/1.0 (https://github.com/heckart)");
         curl_easy_setopt(pCurl_client, CURLOPT_HTTPGET, 1L);
         curl_easy_setopt(pCurl_client, CURLOPT_URL, pUrl);
         curl_easy_setopt(pCurl_client, CURLOPT_WRITEFUNCTION, curlWriteCallback);
@@ -78,7 +79,8 @@ char8_t *makeGETRequestAndReturnUTF8Response(const char8_t *const pUrl) {
         curl_easy_setopt(pCurl_client, CURLOPT_WRITEDATA, pResponse_string);
         curl_rc = curl_easy_perform(pCurl_client);
         if (curl_rc != CURLE_OK) {
-            puts("Request to URL failed. Exiting now.");
+            // flawfinder: ignore; constant format fprintf
+            (void)fprintf(stderr, "curl_easy_perform returned non-ok rc: %d. Exiting now.", (int)curl_rc);
             exit(CURL_PERFORM_FAILURE_RC);
         }
 
