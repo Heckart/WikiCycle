@@ -1,6 +1,7 @@
 #include "../include/wikiStringSearch.h"
 #include "../include/returnCodes.h"
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <uchar.h>
@@ -22,6 +23,7 @@ char8_t *getWikiTitle(const char8_t *const restrict pWiki_article, int_least64_t
     for (int_fast64_t index = 0; pWiki_article[index] != '\0'; ++index) {
         if (pWiki_article[index] == 't') {
             if (!stringHasNAdditionalLength(pWiki_article, index, title_json_length)) {
+                puts("[wikiStringSearch] Could not find a valid title tag in input due to lack of length after tag start.");
                 return nullptr;
             }
             if (strncmp((const char *const)pWiki_article + index + 1, "itle\":\"", title_json_length) == 0) {
@@ -32,12 +34,14 @@ char8_t *getWikiTitle(const char8_t *const restrict pWiki_article, int_least64_t
     }
 
     if (title_index == -1) {
+        puts("[wikiStringSearch] Could not find title tag after inspecting entire input.");
         return nullptr;
     }
 
     uint_fast8_t article_title_length = 0;
     for (int_fast64_t index = title_index; pWiki_article[index] != '\"'; ++index) {
         if (pWiki_article[index] == '\0' || article_title_length > LONGEST_WIKI_ARTICLE_NAME) {
+            puts("[wikiStringSearch] Could not find title after start of title tag.");
             return nullptr;
         }
         ++article_title_length;
@@ -54,6 +58,8 @@ char8_t *getWikiTitle(const char8_t *const restrict pWiki_article, int_least64_t
 
 int_least64_t getIndexOfFirstWikiParagraph(const char8_t *const restrict pWiki_article, const int_least64_t global_offset) {
     // The first article paragraph is found immeditely after the first occurrence of the string <p>
+    // FIXME: Articles with side tables incorrectly take the first link in the table instead of first link in the article.
+    // see https://en.wikipedia.org/wiki/United_States_House_of_Representatives for an example
     constexpr int_fast64_t p_tag_length = 2;
     for (int_fast64_t index = global_offset; pWiki_article[index] != '\0'; ++index) {
         if (pWiki_article[index] == '<') {
@@ -100,6 +106,7 @@ char8_t *getNextWikiArticleSlugFromWikiParagraph(const char8_t *const restrict p
     int_least64_t p_tag_offset = getIndexOfFirstWikiParagraph(pWiki_article, global_offset);
 
     if (p_tag_offset == -1) {
+        puts("[wikiStringSearch] Could not find index of first paragraph in article.");
         return nullptr;
     }
 
@@ -115,6 +122,7 @@ char8_t *getNextWikiArticleSlugFromWikiParagraph(const char8_t *const restrict p
 
         if (pWiki_article[index] == '<' && !live_parenthesis_present && !live_square_bracket_present && !live_curly_bracket_present) {
             if (!stringHasNAdditionalLength(pWiki_article, index, a_href_length)) {
+                puts("[wikiStringSearch] Could not find a valid slug link tag in input due to lack of length after tag start.");
                 return nullptr;
             }
             if (strncmp((const char *const)pWiki_article + index + 1, "a href=\\\"/wiki/", a_href_length) == 0) {
@@ -125,12 +133,14 @@ char8_t *getNextWikiArticleSlugFromWikiParagraph(const char8_t *const restrict p
     }
 
     if (link_offset == -1) {
+        puts("[wikiStringSearch] Could not find slug link tag after inspecting entire input.");
         return nullptr;
     }
 
     uint_least32_t link_length = 0;
     for (int_fast64_t index = link_offset; pWiki_article[index] != '\\'; ++index) {
         if (pWiki_article[index] == '\0') {
+            puts("[wikiStringSearch] Could not find next slug after start of link tag.");
             return nullptr;
         }
         ++link_length;
