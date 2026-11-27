@@ -1,5 +1,6 @@
 #include "include/integrationTest_http_wikiStringSearch.h"
 #include "include/integrationTest_wikiStringSearch_orderedStrictHashTable.h"
+#include "include/regressionTest_wikiStringSearch.h"
 #include "include/unitTest_http.h"
 #include "include/unitTest_localhost_http_server.h"
 #include "include/unitTest_orderedStrictHashTable.h"
@@ -183,6 +184,20 @@ int main(void) {
     (void)fputs(GREEN "All unit tests passed" RESET "\n", stderr); //                                                                                |
     //                                                                                                                                               |
     // === END UNIT TESTS ============================================================================================================================
+
+    // === START REGRESSION TESTS ====================================================================================================================
+    //                                                                                                                                               |
+    (void)fputs(MAGENTA "Starting regression tests" RESET "\n", stderr); //                                                                          |
+    //                                                                                                                                               |
+    // == REGRESSION TESTS - START wikiStringSearch ==============================================================================                   |
+    (void)fputs(MAGENTA "Starting regression tests for http_wikiStringSearch" RESET "\n", stderr); //                            |                   |
+    test_getIndexOfFirstWikiParagraph_pTagInTable();                                               //                            |                   |
+    (void)fputs(GREEN "All regression tests for http_wikiStringSearch passed" RESET "\n", stderr); //                            |                   |
+    // == REGRESSION TESTS - END wikiStringSearch ================================================================================                   |
+    //                                                                                                                                               |
+    (void)fputs(GREEN "All regression tests passed" RESET "\n", stderr); //                                                                          |
+    //                                                                                                                                               |
+    // === END REGRESSION TESTS ======================================================================================================================
 
     // === START INTEGRATION TESTS ===================================================================================================================
     //                                                                                                                                               |
