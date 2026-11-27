@@ -6,7 +6,9 @@
 #include <stdint.h>
 #include <uchar.h>
 
-// Parameters: Given a starting article, walk down its chain of first linked articles until a cycle is found.
+// Purpose:    Given a starting article, walk down its chain of first linked articles until a cycle is found.
+// Parameters: A uint_least32_t for the bucket size of the OSHT, a char8_t* with the wiki article name to find the cycle of, a char8_t* with the URL
+//             contents before the article name.
 // Returns:    An OrderedStrictHashTable* pointing to an OSHT that contains the full cycle that was found.
 // Exits:      Exit(1) if a current article title or next article slug couldn't be found in the URL. Exit(9) if malloc of the URL pointer fails.
 // Modifies:   Nothing existing. On AMD64, allocates 322 bytes on the heap for the URL pointer + (24 + 8*bucket_size) bytes on the heap for
@@ -17,7 +19,8 @@
 OrderedStrictHashTable *findWikiCycle(uint_least32_t bucket_size, const char8_t *const restrict pArticle_name,
                                       const char8_t *const restrict pPre_slug_url);
 
-// Parameters: Given an OSHT, print a representation of the node order to the terminal.
+// Purpose:    Given an OSHT, print a representation of the node order to the terminal.
+// Parameters: An OrderedStrictHashTable* containing the wiki cycle, a char8_t* with the name of the duplicated article.
 // Returns:    Nothing.
 // Exits:      No.
 // Modifies:   Nothing
@@ -25,8 +28,11 @@ OrderedStrictHashTable *findWikiCycle(uint_least32_t bucket_size, const char8_t 
 // Status:     Done.
 void printWikiCycle(const OrderedStrictHashTable *const restrict pWiki_cycle, const char8_t *const restrict pDuped_article);
 
-// Parameters: Print a box to the terminal for an individual article. A max width is enforced with text wrapping for long names. Non-wrapped names are
+// Purpose:    Print a box to the terminal for an individual article. A max width is enforced with text wrapping for long names. Non-wrapped names are
 //             centered in the box.
+// Parameters: An OrderedStrictHashTable* containing the wiki cycle, an OrderedStrictHashTableNode* with the article to be printed, a char8_t* with
+//             the name of the duplicated article, a uint_least8_t with the total length of the box to be printed, a uint_least16_t with the height of
+//             the box to be printed, a bool representing whether or not the article being printed is inside the cycle.
 // Returns:    true if the node being processed is inside the cyclic nodes, else false (used for the cyclic arrows to the side of the boxes).
 // Exits:      No.
 // Modifies:   Nothing
