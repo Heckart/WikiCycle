@@ -57,17 +57,34 @@ char8_t *getWikiTitle(const char8_t *const restrict pWiki_article, int_least64_t
 }
 
 int_least64_t getIndexOfFirstWikiParagraph(const char8_t *const restrict pWiki_article, const int_least64_t global_offset) {
-    // The first article paragraph is found immeditely after the first occurrence of the string <p>
-    // FIXME: Articles with side tables incorrectly take the first link in the table instead of first link in the article.
-    // see https://en.wikipedia.org/wiki/United_States_House_of_Representatives for an example
+    // The first article paragraph is found immeditely after the first occurrence of the string <p> that is not inside a <table> tag
     constexpr int_fast64_t p_tag_length = 2;
+    constexpr int_fast64_t table_tag_start_length = 5;
+    constexpr int_fast64_t table_tag_end_length = 7;
+    bool inside_table = false;
     for (int_fast64_t index = global_offset; pWiki_article[index] != '\0'; ++index) {
         if (pWiki_article[index] == '<') {
-            if (!stringHasNAdditionalLength(pWiki_article, index, p_tag_length)) {
-                return -1;
-            }
-            if (strncmp((const char *const)pWiki_article + index + 1, "p>", p_tag_length) == 0) {
-                return index + p_tag_length + 1;
+            if (inside_table) {
+                if (!stringHasNAdditionalLength(pWiki_article, index, table_tag_end_length)) {
+                    return -1;
+                }
+                if (strncmp((const char *const)pWiki_article + index + 1, "/table>", table_tag_end_length) == 0) {
+                    inside_table = false;
+                    continue;
+                }
+            } else {
+                if (!stringHasNAdditionalLength(pWiki_article, index, p_tag_length)) {
+                    return -1;
+                }
+                if (stringHasNAdditionalLength(pWiki_article, index, table_tag_start_length)) {
+                    if (strncmp((const char *const)pWiki_article + index + 1, "table", table_tag_start_length) == 0) {
+                        inside_table = true;
+                        continue;
+                    }
+                }
+                if (strncmp((const char *const)pWiki_article + index + 1, "p>", p_tag_length) == 0) {
+                    return index + p_tag_length + 1;
+                }
             }
         }
     }

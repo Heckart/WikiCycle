@@ -24,10 +24,10 @@ bool stringHasNAdditionalLength(const char8_t *const restrict pString, const int
 // Status:     Done.
 char8_t *getWikiTitle(const char8_t *const restrict pWiki_article, int_least64_t *const restrict pGlobal_offset);
 
-// Purpose:    Helper function to find the index after the first <p> tag in a null-terminated wiki api request response.
+// Purpose:    Helper function to find the index after the first <p> tag outside a <table> tag in a null-terminated wiki api request response.
 // Parameters: A char8_t* with the wiki api response to inspect, a int_least64_t* representing how much of the string has been inspected before the
 //             function is called.
-// Returns:    An int_least64_t with the index after the first <p> tag, else -1
+// Returns:    An int_least64_t with the index after the first valid <p> tag, else -1
 // Exits:      No.
 // Modifies:   Nothing.
 // Tests:      tests/unit.
