@@ -176,11 +176,13 @@ bool printBox(const OrderedStrictHashTable *const restrict pWiki_cycle, const Or
                 }
             } else {
                 for (uint_fast8_t spaces = 3; spaces < box_length; ++spaces) {
+                    // flawfinder: ignore; constant format printf
                     printf(" ");
                 }
             }
         } else {
-            uint_least8_t length_remaining = strnlen((const char *const)pWiki_node->pNode_name + num_title_chars_printed, LONGEST_WIKI_ARTICLE_NAME);
+            uint_least8_t length_remaining =
+                (uint_least8_t)strnlen((const char *const)pWiki_node->pNode_name + num_title_chars_printed, LONGEST_WIKI_ARTICLE_NAME);
             // flawfinder: ignore; constant format printf
             printf("%.*s ", max_title_line_length, pWiki_node->pNode_name + num_title_chars_printed);
             num_title_chars_printed += max_title_line_length;
@@ -196,21 +198,8 @@ bool printBox(const OrderedStrictHashTable *const restrict pWiki_cycle, const Or
         // flawfinder: ignore; constant format printf
         printf("|");
 
-        if (((title_length + 1) / max_title_line_length) + 2 <= line_count) {
-            if ((pWiki_node == pWiki_cycle->pTail_node) && (line_count == 2)) {
-                // flawfinder: ignore; constant format printf
-                printf(" <--");
-                inside_cycle = false;
-            } else if ((line_count == (box_height + 1) / 2) &&
-                       strncmp((const char *const)pWiki_node->pNode_name, (const char *const)pDuped_article, LONGEST_WIKI_ARTICLE_NAME) == 0) {
-                // flawfinder: ignore; constant format printf
-                printf(" <--");
-                inside_cycle = true;
-            } else if (inside_cycle) {
-                // flawfinder: ignore; constant format printf
-                printf("   |");
-            }
-        }
+        inside_cycle =
+            handleCyclePrinting(title_length, max_title_line_length, line_count, pWiki_node, pWiki_cycle, box_height, pDuped_article, inside_cycle);
     }
     // flawfinder: ignore; constant format printf
     printf("\n");
@@ -225,5 +214,29 @@ bool printBox(const OrderedStrictHashTable *const restrict pWiki_cycle, const Or
         printf("   |");
     }
 
+    return inside_cycle;
+}
+
+bool handleCyclePrinting(const uint_least8_t title_length, const uint_least8_t max_title_line_length, const uint_fast16_t line_count,
+                         const OrderedStrictHashTableNode *const restrict pWiki_node, const OrderedStrictHashTable *const restrict pWiki_cycle,
+                         const uint_least16_t box_height, const char8_t *const restrict pDuped_article, const bool inside_cycle) {
+    if (((title_length + 1) / max_title_line_length) + 2 <= line_count) {
+        if ((pWiki_node == pWiki_cycle->pTail_node) && (line_count == 2)) {
+            // flawfinder: ignore; constant format printf
+            printf(" <--");
+            return false;
+        }
+        if ((line_count == (box_height + 1) / 2) &&
+            strncmp((const char *const)pWiki_node->pNode_name, (const char *const)pDuped_article, LONGEST_WIKI_ARTICLE_NAME) == 0) {
+            // flawfinder: ignore; constant format printf
+            printf(" <--");
+            return true;
+        }
+        if (inside_cycle) {
+            // flawfinder: ignore; constant format printf
+            printf("   |");
+            return inside_cycle;
+        }
+    }
     return inside_cycle;
 }

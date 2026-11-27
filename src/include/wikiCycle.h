@@ -35,4 +35,19 @@ void printWikiCycle(const OrderedStrictHashTable *const restrict pWiki_cycle, co
 bool printBox(const OrderedStrictHashTable *const restrict pWiki_cycle, const OrderedStrictHashTableNode *const restrict pWiki_node,
               const char8_t *const restrict pDuped_article, const uint_least8_t box_length, const uint_least16_t box_height, const bool inside_cycle);
 
+// Purpose:    After the box itslef has been printed, determine if the box is inside the cycle and print the cycle arrow if necessary. This is
+//             separate from printBox to simplify it a bit.
+// Parameters: uint_least8_ts for the length of the current article title and max length, a uint_fast16t for the current line count of the box being
+//             printed, an OrderedStrictHashTableNode* of the article being printed, an OrderedStrictHashTable* of the wiki cycle being printed, a
+//             uint_least16_t with the height of the box in question, a char8_t* with the name of the duplicated article, and a bool for whether or
+//             not the article has already been determined to be inside the cycle.
+// Returns:    true if the node being processed is inside the cyclic nodes, else false (used for the cyclic arrows to the side of the boxes).
+// Exits:      No.
+// Modifies:   Nothing
+// Tests:      Not implemented yet.
+// Status:     Done.
+bool handleCyclePrinting(const uint_least8_t title_length, const uint_least8_t max_title_line_length, const uint_fast16_t line_count,
+                         const OrderedStrictHashTableNode *const restrict pWiki_node, const OrderedStrictHashTable *const restrict pWiki_cycle,
+                         const uint_least16_t box_height, const char8_t *const restrict pDuped_article, const bool inside_cycle);
+
 #endif // WIKICYCLE_SRC_INCLUDE_WIKICYCLE_H_
