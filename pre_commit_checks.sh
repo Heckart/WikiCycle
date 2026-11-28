@@ -150,7 +150,7 @@ fi
 echo -e "${BIPurple}Done.\n"
 #################### BUILD TESTS ####################
 
-#################### UNIT/INTEGRATION/E2E/PERFORMANCE TESTS ####################
+#################### UNIT/REGRESSION/INTEGRATION/E2E/PERFORMANCE TESTS ####################
 echo -e "${BIPurple}Running code tests..."
 
 ./a.out 1>/dev/null 2> >(tee test_report.txt >&2)
@@ -163,7 +163,7 @@ else
 fi
 
 echo -e "${BIPurple}Done.\n"
-#################### UNIT/INTEGRATION/E2E/PERFORMANCE TESTS ####################
+#################### UNIT/REGRESSION/INTEGRATION/E2E/PERFORMANCE TESTS ####################
 
 #################### DYNAMIC ANALYSIS SUITE ####################
 echo -e "${BIPurple}Running dynamic analysis suite..."

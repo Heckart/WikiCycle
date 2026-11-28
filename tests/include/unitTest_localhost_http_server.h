@@ -10,4 +10,6 @@ void test_localhost_http_server_nonASCII_UTF8(void);
 
 void test_localhost_http_server_nonexistent_file(void);
 
+void test_localhost_http_server_serve_multiple_files(void);
+
 #endif // WIKICYCLE_TESTS_INCLUDE_UNITTEST_LOCALHOST_HTTP_SERVER_H_

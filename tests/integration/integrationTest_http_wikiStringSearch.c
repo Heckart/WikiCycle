@@ -13,7 +13,11 @@
 #include <unistd.h>
 
 void test_http_wikiStringSearch_correctTitle(void) {
-    startTestServer(u8"tests/test_infrastructure/Unit_testing.json");
+    static int_least32_t server_fd = -1;
+    static pthread_t server_thread; // NOLINT(misc-include-cleaner)
+    constexpr uint_least16_t port = 8080;
+
+    startTestServer(u8"tests/test_infrastructure/Unit_testing.json", &server_fd, &server_thread, port);
     char8_t *const pHTML_request_one = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     defer { free(pHTML_request_one); }
 
@@ -27,9 +31,10 @@ void test_http_wikiStringSearch_correctTitle(void) {
 
     fake_global_index = 0;
 
-    stopTestServer();
+    stopTestServer(&server_fd, &server_thread);
 
-    startTestServer(u8"tests/test_infrastructure/Knowledge.json");
+    server_fd = -1;
+    startTestServer(u8"tests/test_infrastructure/Knowledge.json", &server_fd, &server_thread, port);
     char8_t *const pHTML_request_two = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     defer { free(pHTML_request_two); }
 
@@ -40,11 +45,14 @@ void test_http_wikiStringSearch_correctTitle(void) {
     assert(strnlen((const char *const)pTitle_two, 10) == 9);
     assert(strncmp((const char *const)pTitle_two, "Knowledge", 10) == 0);
 
-    stopTestServer();
+    stopTestServer(&server_fd, &server_thread);
 }
 
 void test_http_wikiStringSearch_correctSlug(void) {
-    startTestServer(u8"tests/test_infrastructure/Unit_testing.json");
+    static int_least32_t server_fd = -1;
+    static pthread_t server_thread; // NOLINT(misc-include-cleaner)
+    constexpr uint_least16_t port = 8080;
+    startTestServer(u8"tests/test_infrastructure/Unit_testing.json", &server_fd, &server_thread, port);
     char8_t *const pHTML_request_one = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     defer { free(pHTML_request_one); }
 
@@ -58,9 +66,10 @@ void test_http_wikiStringSearch_correctSlug(void) {
 
     fake_global_index = 0;
 
-    stopTestServer();
+    stopTestServer(&server_fd, &server_thread);
 
-    startTestServer(u8"tests/test_infrastructure/Knowledge.json");
+    server_fd = -1;
+    startTestServer(u8"tests/test_infrastructure/Knowledge.json", &server_fd, &server_thread, port);
     char8_t *const pHTML_request_two = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     defer { free(pHTML_request_two); }
 
@@ -71,5 +80,5 @@ void test_http_wikiStringSearch_correctSlug(void) {
     assert(strnlen((const char *const)pSlug_two, 7) == 6);
     assert(strncmp((const char *const)pSlug_two, "Belief", 7) == 0);
 
-    stopTestServer();
+    stopTestServer(&server_fd, &server_thread);
 }

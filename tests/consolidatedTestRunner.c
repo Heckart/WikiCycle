@@ -12,7 +12,7 @@
 #define RESET "\x1b[0m"
 
 /*
- * This file is a consolidated entry point for all unit/integration/e2e tests so there can be one compiled main that runs them all.
+ * This file is a consolidated entry point for all unit/regression/integration/e2e tests so there can be one compiled main that runs them all.
  * Performance tests will be a bit of a different situation. We will cross that bridge when we get there.
  */
 
@@ -33,6 +33,7 @@ int main(void) {
     test_localhost_http_server_start_stop_start_again(); //                                                  |                   |                   |
     test_localhost_http_server_nonASCII_UTF8();          //                                                  |                   |                   |
     test_localhost_http_server_nonexistent_file();       //                                                  |                   |                   |
+    test_localhost_http_server_serve_multiple_files();   //                                                  |                   |                   |
     (void)fputs(GREEN "Unit tests for localhost_http_server whole package passed" RESET "\n", stderr); //    |                   |                   |
     // === UNIT TESTS - localhost_http_server - END complete package =========================================                   |                   |
     //                                                                                                                           |                   |

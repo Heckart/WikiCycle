@@ -105,47 +105,60 @@ void test_http_curlWriteCallback_HTMLInsert(void) {
 }
 
 void test_http_makeGETRequestAndReturnUTF8Response_nullTerminator(void) {
-    startTestServer(u8"tests/test_infrastructure/index.html");
+    static int_least32_t server_fd = -1;
+    static pthread_t server_thread; // NOLINT(misc-include-cleaner)
+    constexpr uint_least16_t port = 8080;
+
+    startTestServer(u8"tests/test_infrastructure/index.html", &server_fd, &server_thread, port);
     char8_t *const pHTMLRequestOne = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert(pHTMLRequestOne[14] == '\0');
-    stopTestServer();
+    stopTestServer(&server_fd, &server_thread);
     free(pHTMLRequestOne);
 
-    startTestServer(u8"tests/test_infrastructure/index2.html");
+    server_fd = -1;
+    startTestServer(u8"tests/test_infrastructure/index2.html", &server_fd, &server_thread, port);
     char8_t *const pHTMLRequestTwo = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert(pHTMLRequestTwo[107] == '\0');
-    stopTestServer();
+    stopTestServer(&server_fd, &server_thread);
     free(pHTMLRequestTwo);
 
-    startTestServer(u8"tests/test_infrastructure/emoji.txt");
+    server_fd = -1;
+    startTestServer(u8"tests/test_infrastructure/emoji.txt", &server_fd, &server_thread, port);
     char8_t *const pHTMLRequestThree = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert(pHTMLRequestThree[25] == '\0');
-    stopTestServer();
+    stopTestServer(&server_fd, &server_thread);
     free(pHTMLRequestThree);
 
-    startTestServer(u8"tests/test_infrastructure/greek.txt");
+    server_fd = -1;
+    startTestServer(u8"tests/test_infrastructure/greek.txt", &server_fd, &server_thread, port);
     char8_t *const pHTMLRequestFour = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert(pHTMLRequestFour[305] == '\0');
-    stopTestServer();
+    stopTestServer(&server_fd, &server_thread);
     free(pHTMLRequestFour);
 
-    startTestServer(u8"tests/test_infrastructure/Unit_testing.json");
+    server_fd = -1;
+    startTestServer(u8"tests/test_infrastructure/Unit_testing.json", &server_fd, &server_thread, port);
     char8_t *const pHTMLRequestFive = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert(pHTMLRequestFive[210888] == '\0');
-    stopTestServer();
+    stopTestServer(&server_fd, &server_thread);
     free(pHTMLRequestFive);
 }
 
 void test_http_makeGETRequestAndReturnUTF8Response_basicRequest(void) {
-    startTestServer(u8"tests/test_infrastructure/index.html");
+    static int_least32_t server_fd = -1;
+    static pthread_t server_thread; // NOLINT(misc-include-cleaner)
+    constexpr uint_least16_t port = 8080;
+
+    startTestServer(u8"tests/test_infrastructure/index.html", &server_fd, &server_thread, port);
     char8_t *const pHTMLRequestOne = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert(strncmp((const char *const)pHTMLRequestOne, "Hello, World!\n", 15) == 0);
     // cppcheck-suppress assertWithSideEffect
     assert(strnlen((const char *const)pHTMLRequestOne, 15) == 14);
-    stopTestServer();
+    stopTestServer(&server_fd, &server_thread);
     free(pHTMLRequestOne);
 
-    startTestServer(u8"tests/test_infrastructure/index2.html");
+    server_fd = -1;
+    startTestServer(u8"tests/test_infrastructure/index2.html", &server_fd, &server_thread, port);
     char8_t *const pHTMLRequestTwo = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert((strstr)((const char *const)pHTMLRequestTwo, "Localhost C Server") != nullptr);
     assert((strstr)((const char *const)pHTMLRequestTwo, "Hello, C!") != nullptr);
@@ -153,20 +166,25 @@ void test_http_makeGETRequestAndReturnUTF8Response_basicRequest(void) {
     assert((strstr)((const char *const)pHTMLRequestTwo, "This string does not exist") == nullptr);
     // cppcheck-suppress assertWithSideEffect
     assert(strnlen((const char *const)pHTMLRequestTwo, 108) == 107);
-    stopTestServer();
+    stopTestServer(&server_fd, &server_thread);
     free(pHTMLRequestTwo);
 }
 
 void test_http_makeGETRequestAndReturnUTF8Response_nonASCIIUTF8(void) {
-    startTestServer(u8"tests/test_infrastructure/emoji.txt");
+    static int_least32_t server_fd = -1;
+    static pthread_t server_thread; // NOLINT(misc-include-cleaner)
+    constexpr uint_least16_t port = 8080;
+
+    startTestServer(u8"tests/test_infrastructure/emoji.txt", &server_fd, &server_thread, port);
     char8_t *const pHTMLRequestOne = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert(strncmp((const char *const)pHTMLRequestOne, "🫠🫨🫪🤌🇲🇶\n", 21) == 0);
     // cppcheck-suppress assertWithSideEffect
     assert(strnlen((const char *const)pHTMLRequestOne, 26) == 25);
-    stopTestServer();
+    stopTestServer(&server_fd, &server_thread);
     free(pHTMLRequestOne);
 
-    startTestServer(u8"tests/test_infrastructure/greek.txt");
+    server_fd = -1;
+    startTestServer(u8"tests/test_infrastructure/greek.txt", &server_fd, &server_thread, port);
     char8_t *const pHTMLRequestTwo = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert(strncmp((const char *const)pHTMLRequestTwo,
                    "ὁ δὲ ἀνδρεῖος ἀνέκπληκτος ὡς ἄνθρωπος. φοβήσεται μὲν οὖν καὶ τὰ τοιαῦτα, ὡς δεῖ δὲ καὶ ὡς ὁ λόγος ὑπομενεῖ τοῦ καλοῦ ἕνεκα· "
@@ -174,12 +192,16 @@ void test_http_makeGETRequestAndReturnUTF8Response_nonASCIIUTF8(void) {
                    306) == 0);
     // cppcheck-suppress assertWithSideEffect
     assert(strnlen((const char *const)pHTMLRequestTwo, 306) == 305);
-    stopTestServer();
+    stopTestServer(&server_fd, &server_thread);
     free(pHTMLRequestTwo);
 }
 
 void test_http_makeGETRequestAndReturnUTF8Response_longHTMLPage(void) {
-    startTestServer(u8"tests/test_infrastructure/Unit_testing.json");
+    static int_least32_t server_fd = -1;
+    static pthread_t server_thread; // NOLINT(misc-include-cleaner)
+    constexpr uint_least16_t port = 8080;
+
+    startTestServer(u8"tests/test_infrastructure/Unit_testing.json", &server_fd, &server_thread, port);
     char8_t *const pHTMLRequestOne = makeGETRequestAndReturnUTF8Response(u8"localhost:8080");
     assert((strstr)((const char *const)pHTMLRequestOne,
                     "<p><b>Unit testing</b>, also known as <b>component</b> or <b>module testing</b>, is a form of <a "
@@ -205,12 +227,12 @@ void test_http_makeGETRequestAndReturnUTF8Response_longHTMLPage(void) {
                                                         "which isolated source code is tested to validate expected behavior.") == nullptr);
     // cppcheck-suppress assertWithSideEffect
     assert(strnlen((const char *const)pHTMLRequestOne, 210889) == 210888);
-    stopTestServer();
+    stopTestServer(&server_fd, &server_thread);
     free(pHTMLRequestOne);
 }
 
 void test_http_makeGETRequestAndReturnUTF8Response_exitOnFailedRequest(void) {
-    const pid_t pid = fork();
+    const pid_t pid = fork(); // NOLINT(misc-include-cleaner)
     assert(pid >= 0);
 
     if (pid == 0) {
